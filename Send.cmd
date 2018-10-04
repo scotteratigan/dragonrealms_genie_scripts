@@ -1,4 +1,4 @@
-# Includes Send, WAIT_RT, WAIT_STUN, WAITFORRE
+# Includes Send, WAIT_RT, WAIT_STUN, Waitforre
 #REQUIRE Error.cmd
 #REQUIRE Stand.cmd
 gosub Send $0
@@ -14,14 +14,14 @@ Send:
 		var successText $3
 		var failText $4
 		if ("%Send.command" == "") then {
-			gosub ERROR Send.command is blank, nothing to Send.
+			gosub Error Send.command is blank, nothing to Send.
 			return
 		}
 		eval Send.length length("%Send.command")
 		if (%Send.length > 1023) then {
 			# Will get auto-booted if we Send 1024 characters in one command. No legitimate use either, by the way.
 			eval Send.command substr("%Send.command", 0, 1023);
-			gosub ERROR Send.command is shortened to 1023 characters. WTF are you doing?
+			gosub Error Send.command is shortened to 1023 characters. WTF are you doing?
 		}
 		if ("%failText" == "") then {
 			echo Warning, Send called without fail text.
@@ -34,9 +34,9 @@ Send:
 			# todo: add magic check here.
 			# todo: add playing music check here.
 		}
-	SendING:
+	Sending:
 		pause .01
-		matchre SendING $RetryStrings
+		matchre Sending $RetryStrings
 		matchre SendStopPlaying ^You are a bit too busy performing to do that\.$|^You are concentrating too much upon your performance to do that\.$
 		matchre SendStand ^You must stand first\.$
 		matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^There is no need for violence here\.$
@@ -47,23 +47,23 @@ Send:
 	SendFail:
 		# Need to strip out brackets because it causes issues later with regexp comparisons. Alternately, could escape them... hmm.
 		var Send.response $0
-		#gosub ESCAPE_SPECIAL_CHARACTERS Send.response - disabled for now, easier to chain if statements or contains
+		#gosub EscapeSpecialCharacters Send.response - disabled for now, easier to chain if statements or contains
 		var Send.success 0
 		if ("%Send.type" == "W") then pause .08
 		return
 	SendOk:
 		# Slightly repetitive but we need to store $0 asap to avoid an overwrite from a trigger firing.
 		var Send.response $0
-		#gosub ESCAPE_SPECIAL_CHARACTERS Send.response
+		#gosub EscapeSpecialCharacters Send.response
 		var Send.success 1
 		if ("%Send.type" == "W") then pause .08
 		return
 	SendStopPlaying:
 		put stop play
-		goto SendING
+		goto Sending
 	SendStand:
 		gosub STAND
-		goto SendING
+		goto Sending
 
 WAIT_RT:
 	# not included in Send gosub / not currently in use
@@ -78,32 +78,32 @@ WAIT_STUN:
 	if ($stunned) then goto WAIT_STUN
 	return
 
-WAITFORRE:
+Waitforre:
 	# implements the equivalent of matchwait x, using matchwait
-	var WAITFORRE.seconds $1
-		var WAITFORRE.matchres $2
-		var WAITFORRE.response null
+	var Waitforre.seconds $1
+		var Waitforre.matchres $2
+		var Waitforre.response null
 		# todo: optional activity while advancing (appraise? throw weapon?)
-		matchre WAITFORRE_RETURN %WAITFORRE.matchres
-		matchwait %WAITFORRE.seconds
-		gosub Error WAITFORRE %WAITFORRE.seconds %WAITFORRE.matchres TIMEOUT.
-	WAITFORRE_RETURN:
-		var WAITFORRE.response $0
+		matchre Waitforre_RETURN %Waitforre.matchres
+		matchwait %Waitforre.seconds
+		gosub Error Waitforre %Waitforre.seconds %Waitforre.matchres TIMEOUT.
+	Waitforre_RETURN:
+		var Waitforre.response $0
 		return
 
-ESCAPE_SPECIAL_CHARACTERS:
+EscapeSpecialCharacters:
 	# Escapes regexp characters. Quotes are removed by Genie already.
-	var ESCAPE_SPECIAL_CHARACTERS.varName $1
-	var ESCAPE_SPECIAL_CHARACTERS.value %$1
+	var EscapeSpecialCharacters.varName $1
+	var EscapeSpecialCharacters.value %$1
 	# JS replace is necessary because Genie can't handle replacere with variable (can't capture text with parens and put it back into string):
 	<%
-	var myString = getVar("ESCAPE_SPECIAL_CHARACTERS.value");
+	var myString = getVar("EscapeSpecialCharacters.value");
 	echo("myString: " + myString);
 	myString = myString.replace(/([\[\]\\\.\+\-\(\)])/g, '\\$1');
 	echo("myString: " + myString);
-	setVar("ESCAPE_SPECIAL_CHARACTERS.value", myString);
+	setVar("EscapeSpecialCharacters.value", myString);
 	%>
 	# Following 'hack' is to remove the quotes that surround the new string:
-	eval ESCAPE_SPECIAL_CHARACTERS.value replace(%ESCAPE_SPECIAL_CHARACTERS.value, "~", "~")
-	var %ESCAPE_SPECIAL_CHARACTERS.varName %ESCAPE_SPECIAL_CHARACTERS.value
+	eval EscapeSpecialCharacters.value replace(%EscapeSpecialCharacters.value, "~", "~")
+	var %EscapeSpecialCharacters.varName %EscapeSpecialCharacters.value
 	return

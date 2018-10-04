@@ -1,11 +1,11 @@
 #REQUIRE Send.cmd
 
-gosub LOAD %0
+gosub Load %0
 exit
 
-LOAD:
-	var LOAD.option $0
-LOADING:
-	gosub Send RT "load %LOAD.option" "^Roundtime \d+ sec\.$" "^You can't load .+, silly\!$"
+Load:
+	var Load.option $0
+Loading:
+	gosub Send RT "load %Load.option" "^Roundtime \d+ sec\.$" "^You can't load .+, silly\!$"
 	# todo: add checks for no ammo, etc.
 	return

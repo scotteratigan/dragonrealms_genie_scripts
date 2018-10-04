@@ -1,8 +1,8 @@
 #REQUIRE Send.cmd
 
-gosub PARRY
+gosub Parry
 exit
 
-PARRY:
+Parry:
 	gosub Send RT "parry" "^Roundtime:" "^You are already in a position to parry\.$"
 	return

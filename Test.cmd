@@ -4,10 +4,10 @@
 
 Loop:
 gosub WaitOnMob
-gosub ADVANCE_TO_MELEE
-gosub DRAW
-gosub SLICE
-gosub CHOP
+gosub AdvanceMelee
+gosub Draw
+gosub Slice
+gosub Chop
 goto Loop
 
 
