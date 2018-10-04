@@ -1,21 +1,28 @@
-# todo: code script
+#REQUIRE Send.cmd
+# todo: test this
 
-#>arrange kelpie
-#The kelpie cannot be skinned, so you can't arrange it either.
+gosub Arrange %0
+exit
 
-#>arrange all kelp
-#You don't know how to do that.
+Arrange:
+	eval Arrange.option tolower("$0")
+	if (matchre("%Arrange.option" "^all")) then {
+		gosub ArrangeAll
+		return
+	}
+Arranging:
+	gosub Send W "arrange %Arrange.option" "^You begin to arrange|^You continue arranging|^You complete arranging" "^That has already been arranged as much as you can manage\.|^The .+'s already been skinned, there's no point\.$|^You don't know how to do that\.$|^The .+ cannot be skinned, so you can't arrange it either\.$"
+	return
 
-#You begin to arrange the boar's corpse in a manner that, while making the process of obtaining a part more difficult, guarantees a greater reward.
-#Roundtime: 2 sec.
+ArrangeAll:
+	eval Arrange.option tolower("$0")
+	gosub Arrange all %Arrange.option
+	if ("%Send.message" == "You don't know how to do that.") {
+		gosub Arrange %Arrange.option
+		gosub Arrange %Arrange.option
+		gosub Arrange %Arrange.option
+		gosub Arrange %Arrange.option
+		gosub Arrange %Arrange.option
+	}
+	return
 
-#You continue arranging the boar's corpse in a manner that, while making the process of obtaining a part more difficult, guarantees a greater reward.
-#Roundtime: 2 sec.
-
-#You complete arranging the boar's corpse in a manner that, while making the process of obtaining a part more difficult, guarantees a greater reward.
-#Roundtime: 2 sec.
-
-#That has already been arranged as much as you can manage.
-
-#>arrange boar
-#The boar's already been skinned, there's no point.
