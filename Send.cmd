@@ -39,7 +39,7 @@ Send:
 		matchre Sending $RetryStrings
 		matchre SendStopPlaying ^You are a bit too busy performing to do that\.$|^You are concentrating too much upon your performance to do that\.$
 		matchre SendStand ^You must stand first\.$
-		matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^There is no need for violence here\.$
+		matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^There is no need for violence here\.$|^You can't do that\.$
 		matchre SendFail %failText
 		matchre SendOk %successText
 		put %Send.command
