@@ -1,5 +1,5 @@
 #REQUIRE Advance.cmd
-#REQUIRE Send.cmd
+#REQUIRE SendAttack.cmd
 gosub Attack %0
 exit
 
