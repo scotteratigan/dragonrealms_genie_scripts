@@ -1,5 +1,4 @@
 #REQUIRE Attack.cmd
-# todo: add all attack verbs?
 
 gosub AttackUntilKill %0
 exit

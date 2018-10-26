@@ -105,7 +105,7 @@ GrabbingLootTreasure:
 	}
 	# Scrolls:
 	if (matchre("%GrabLootTreasure.currentItem", "(a seishaka leaf|a smudged parchment|a papyrus roll|a fine scroll|a moldering scroll|a yellowed scroll|a faded vellum|a tattered scroll|a piece of hhr'lav'geluhh bark|a clay tablet|a wax tablet|an ostracon)")) then {
-		# todo: hard-code values for scrolls in Nounify?
+		# todo: hard-code values for scrolls in Nounify for better specificity?
 		gosub Nounify %GrabLootTreasure.currentItem
 		gosub Stow %Nounify.noun
 		goto GrabbedSomeLoot

@@ -1,3 +1,4 @@
+#REQUIRE Climb.cmd
 #REQUIRE Nounify.cmd
 #REQUIRE Retreat.cmd
 #REQUIRE Send.cmd
@@ -11,7 +12,7 @@ Move:
 	var Move.command $0
 Moving:
 	if (!$standing) then gosub Stand
-	gosub Send Q "%Move.command" "$moveSuccessStrings" "^You must be standing to do that\.$|^Stand up first\.$|^You should stop practicing your Athletics skill before you do that\.$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$"
+	gosub Send Q "%Move.command" "$moveSuccessStrings" "^You must be standing to do that\.$|^Stand up first\.$|^You should stop practicing your Athletics skill before you do that\.$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$|^You will have to climb that\.$"
 	if (%Send.success) then return
 	if (matchre("%Send.response", "^You notice (.+) at your feet, and do not wish to leave it behind\.$")) then {
 		# Note: works with multiple items at feet, one at a time. Could code a special routine to be slightly faster, but this is a rare case and the current solution works well.
@@ -42,5 +43,12 @@ Moving:
 		put send stop practicing
 		wait
 		goto Moving
+	}
+	if (matchre("%Send.response", "^You will have to climb that\.$")) then {
+		var Move.climbCommand %Move.command
+		# todo: test this - ensure no infinite loop.
+		eval Move.climbCommand replacere("%Move.climbCommand", "^go ", "")
+		gosub Climb %Move.climbCommand
+		return
 	}
 	return

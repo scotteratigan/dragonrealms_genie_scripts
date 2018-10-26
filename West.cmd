@@ -1,6 +1,6 @@
 #REQUIRE Move.cmd
 
-gosub West $0
+gosub West %0
 exit
 
 West:

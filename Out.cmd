@@ -1,6 +1,6 @@
 #REQUIRE Move.cmd
 
-gosub Out $0
+gosub Out %0
 exit
 
 Out:

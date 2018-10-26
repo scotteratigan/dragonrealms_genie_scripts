@@ -1,6 +1,6 @@
 #REQUIRE Move.cmd
 
-gosub NorthEast $0
+gosub NorthEast %0
 exit
 
 NorthEast:

@@ -1,6 +1,7 @@
 #REQUIRE Block.cmd
 #REQUIRE Face.cmd
 #REQUIRE Send.cmd
+#REQUIRE Waitforre.cmd
 
 gosub AdvanceMelee %0
 exit
@@ -35,6 +36,21 @@ AdvancingToMelee:
 		}
 	}
 	gosub Waitforre 15 "^You close to melee range on .+\.$|^The .+ stops you from advancing any farther\!$|^You have lost sight of your target, so you stop advancing\.$|closes to melee range on you\.$"
-	echo Waitforre response is %Waitforre.response
 	if (matchre("%Waitforre.response", "^You close to melee|^You are already at melee|advance towards\?$|already quite dead\.$|you stop advancing\.$")) then return
 	goto AdvancingToMelee
+
+AdvancePole:
+	var AdvancePole.option $0
+AdvancingToPole:
+	gosub Advance %AdvancePole.option
+	if (matchre("%Send.response", "^You are already at melee with|^You spin around to face")) then {
+		var AdvancePole.success 1
+		return
+	}
+	if (matchre("%Send.response", "^You will have to retreat from your current melee first\.$")) then {
+		gosub Block stop
+		goto AdvancingToPole
+	}
+	gosub Waitforre 10 "^You close to .+ on .+\.$|^The .+ stops you from advancing any farther\!$|^You have lost sight of your target, so you stop advancing\.$|closes to melee range on you\.$"
+	if (matchre("%Waitforre.response", "^You close to |^You are already at melee|advance towards\?$|already quite dead\.$|you stop advancing\.$")) then return
+	goto AdvancingToPole

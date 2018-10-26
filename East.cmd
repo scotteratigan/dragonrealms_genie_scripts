@@ -1,7 +1,7 @@
 #REQUIRE Move.cmd
 
 #debuglevel 10
-gosub East $0
+gosub East %0
 exit
 
 East:
