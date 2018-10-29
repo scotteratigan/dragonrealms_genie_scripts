@@ -17,7 +17,7 @@ Nounify:
 		goto NounifyReturn
 	}
 	# Random/Odd suffixes first:
-	eval Nounify.noun replacere("%Nounify.noun", " hanging from .+", "")
+	eval Nounify.noun replacere("%Nounify.noun", " (hanging from|set in|set with) .+", "")
 	# With word preceeding 'with' suffix:
 	eval Nounify.noun replacere("%Nounify.noun", " (decorated|embroidered|painted|sealed|trimmed) with .+", "")
 	# Just the 'with' suffix:

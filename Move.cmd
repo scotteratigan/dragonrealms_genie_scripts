@@ -10,10 +10,14 @@ exit
 
 Move:
 	var Move.command $0
+	var Move.success 0
 Moving:
 	if (!$standing) then gosub Stand
-	gosub Send Q "%Move.command" "$moveSuccessStrings" "^You must be standing to do that\.$|^Stand up first\.$|^You should stop practicing your Athletics skill before you do that\.$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$|^You will have to climb that\.$|^An attendant approaches you and says, .Unfortunately, this shop is closed at the moment\..$"
-	if (%Send.success) then return
+	gosub Send Q "%Move.command" "$moveSuccessStrings" "^You must be standing to do that\.$|^Stand up first\.$|^You should stop practicing your Athletics skill before you do that\.$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$|^You will have to climb that\.$|^An attendant approaches you and says, .Unfortunately, this shop is closed at the moment\..$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$"
+	if (%Send.success) then {
+		var Move.success 1
+		return
+	}
 	if (matchre("%Send.response", "^You notice (.+) at your feet, and do not wish to leave it behind\.$")) then {
 		# Note: works with multiple items at feet, one at a time. Could code a special routine to be slightly faster, but this is a rare case and the current solution works well.
 		var Move.itemAtFeet $1
@@ -34,7 +38,7 @@ Moving:
 		gosub RetreatQuickly
 		goto Moving
 	}
-	if (matchre("%Send.response", "^You must be standing to do that\.$|^Stand up first\.$")) then {
+	if (matchre("%Send.response", "^You must be standing to do that\.$|^Stand up first\.$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$")) then {
 		gosub Stand
 		goto Moving
 	}
@@ -50,6 +54,7 @@ Moving:
 		# todo: test this - ensure no infinite loop.
 		eval Move.climbCommand replacere("%Move.climbCommand", "^go ", "")
 		gosub Climb %Move.climbCommand
+		if ("%Climb.success" == "1") then var Move.success 1
 		return
 	}
 	return

@@ -55,6 +55,12 @@ AutomapperMoving:
 	}
 	if "%currentMovementType" == "climb" then gosub Climb %currentMovement
 	if "%currentMovementType" == "ice" then echo ICE NOT CODED YET
+	if "%currentMovementType" == "search" then {
+		# Todo: gosub this.
+		put search
+		wait
+		gosub Move %currentMovement
+	}
 	if "%currentMovementType" == "swim" then gosub Move %currentMovement
 	if "%currentMovementType" == "room" then gosub Move %currentMovement
 	if "%currentMovementType" == "rt" then gosub Move %currentMovement

@@ -1,5 +1,7 @@
 #REQUIRE Error.cmd
 
+# Todo: change Arrayify.string to Arrayify.list for clarity. Keep Arrayify.string for the original text input.
+
 gosub Arrayify %0
 return
 

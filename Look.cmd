@@ -15,6 +15,8 @@ Look:
 	action var Look.containerName $1;var Look.contents $2 when ^In the (.+) you see (.+)\.$
 	action var Look.contentsCount 0 when ^There is nothing in there\.$
 	action var Look.contentsFullyListed 0 when ^In the .+ you see .* a lot of other stuff\.$
+	# Look.exits is for looking in rooms where $roomexits variable doesn't set properly, like in the Crossing Temple:
+	action var Look.exits $2;if ("%Look.exits" == "none") then var Look.exits null when ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
 Looking:
 	gosub Send Q "look %Look.target" "$moveSuccessStrings|^In the .+ you see|^There is nothing in there\.$" "^That is closed\.$"
 	if ("%Send.response" == "That is closed." && !Look.attemptedToOpen) then {
@@ -31,6 +33,11 @@ Looking:
 		eval Look.contentsCount count("%Look.contentsList", "|")
 		math Look.contentsCount add 1
 	}
+	if ("%Look.exits" != "null") then {
+		gosub Arrayify %Look.exits
+		var Look.exitList %Arrayify.string
+	}
 	action remove ^In the (.+) you see (.+)\.$
 	action remove ^There is nothing in there\.$
+	action remove ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
 	return
