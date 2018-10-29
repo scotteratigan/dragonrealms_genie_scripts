@@ -11,3 +11,7 @@ Not visible (hidden or invisible)
 .....
 Not holding item we're trying to manipulate
 Can't find item
+
+
+Implement javascript sorts for skill lists?
+Sort skills by rank, smallest to largest?
