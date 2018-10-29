@@ -2,6 +2,7 @@ gosub Error %0
 exit
 
 Error:
+	# todo: include the last command in error message?
 	var Error.message $0 ($gametime) [$zoneid - $roomid]
 	if ("$righthand" == "Empty" && "$lefthand" == "Empty") then {
 		var Error.message %Error.message nothing in hands

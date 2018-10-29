@@ -51,7 +51,7 @@ Sending:
 	matchre Sending $RetryStrings
 	matchre SendStopPlaying ^You are a bit too busy performing to do that\.$|^You are concentrating too much upon your performance to do that\.$
 	matchre SendStand ^You must stand first\.$
-	matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^You can't do that\.$|^There is no need for violence here\.$
+	matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^I don't know what you are referring to\.$|^You can't do that\.$|^There is no need for violence here\.$
 	# Following is invoked in get/put/drop and possibly other verbs:
 	if (%Send.attempts < 10) then matchre Sending ^Something appears different about .+, perhaps try doing that again\.$
 	matchre SendGetVisible ^That would ruin your hiding place\.$
