@@ -1,11 +1,11 @@
 #REQUIRE Move.cmd
 
-gosub NorthWest %0
+gosub Northwest %0
 exit
 
-NorthWest:
-	var NorthWest.option $0
-NorthWesting:
+Northwest:
+	var Northwest.option $0
+Northwesting:
 	# todo: add in checks for dragging items or sneaking.
-	gosub Move northwest %NorthWest.option
+	gosub Move northwest %Northwest.option
 	return

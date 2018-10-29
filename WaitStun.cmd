@@ -3,6 +3,6 @@ exit
 
 WaitStun:
 	#put echo Waiting on stun...
+	if (!$stunned) then return
 	pause .1
-	if ($stunned) then goto WaitStun
-	return
+	goto WaitStun
