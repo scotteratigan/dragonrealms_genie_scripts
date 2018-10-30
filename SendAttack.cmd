@@ -9,7 +9,6 @@ SendAttack:
 	var SendAttack.option $2
 SendingAttack:
 	# todo: vitality check?
-	# todo: ifnotdefined check before defining all these vars?
 	var benignDamage 0
 	var brushingDamage 0
 	var gentleDamage 0

@@ -28,8 +28,7 @@ Global variables are an order of magnitude slower than local variables at runtim
 	Main goal is to complete all combat and utility verbs
 	Secondary goal is to complete guild-only and uncommon verbs
 	Tertiary (maybe never) goal is to add RP verbs
-	throw / lob / hurl - basic thrown weapon attacks
-	justice - set info about current room and warrant/necromancer status
+	recall warrant
 	hunt
 	health - needs to set info about wounds (and then tend.cmd if bleeding)
 	info - update to have numerical burden levels
@@ -557,7 +556,7 @@ Global variables are an order of magnitude slower than local variables at runtim
 
 	hunt
 
-	hurl
+	hurl - done
 
 	hush
 
@@ -593,7 +592,7 @@ Global variables are an order of magnitude slower than local variables at runtim
 
 	jump - RP, mostly
 
-	justice
+	justice - done
 
 	khri - mostly done
 
@@ -643,19 +642,19 @@ Global variables are an order of magnitude slower than local variables at runtim
 
 	loan - ?
 
-	lob
+	lob - done
 
 	lock
 
-	look
+	look - done, may need to add additional special cases
 
-	loot
+	loot - done
 
 	lower
 
 	ltb
 
-	lunge
+	lunge - done
 
 	make
 
@@ -1157,7 +1156,7 @@ Global variables are an order of magnitude slower than local variables at runtim
 
 	think
 
-	throw
+	throw - done
 
 	thrust - done
 
