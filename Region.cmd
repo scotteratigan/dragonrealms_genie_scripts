@@ -15,7 +15,7 @@ gosub Region %0
 exit
 
 Region:
-	debuglevel 10
+	#debuglevel 10
 	eval Region.destinationZone tolower("%1")
 	var Region.aesryList 98|98a|99
 	var Region.crossingList 1|1a|1j|1k|1l|1m|1n|2|2a|2d|4|4a|6|7|7a|8|8a|9b|10|11|12a|13|14b|14c|50

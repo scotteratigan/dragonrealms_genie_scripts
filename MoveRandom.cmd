@@ -47,7 +47,6 @@ MoveRandom:
 	if ($down == 1) then var MoveRandom.potentialDirections %MoveRandom.potentialDirections|down
 	if ($out == 1) then var MoveRandom.potentialDirections %MoveRandom.potentialDirections|out
 	eval MoveRandom.potentialDirections replacere("%MoveRandom.potentialDirections", "^\s*\|", "")
-	echo MoveRandom.potentialDirections: %MoveRandom.potentialDirections
 	eval MoveRandom.maxIndex count("%MoveRandom.potentialDirections", "|")
 	random 0 %MoveRandom.maxIndex
 	eval MoveRandom.direction element("%MoveRandom.potentialDirections", %r)

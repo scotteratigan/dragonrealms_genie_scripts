@@ -29,14 +29,10 @@ Global variables are an order of magnitude slower than local variables at runtim
 	Secondary goal is to complete guild-only and uncommon verbs
 	Tertiary (maybe never) goal is to add RP verbs
 	recall warrant
-	hunt
 	health - needs to set info about wounds (and then tend.cmd if bleeding)
 	info - update to have numerical burden levels
-	prepare - needs spell-specific strings so that success/failure is accurate
-	cast - same as prepare
 	target - same as cast, essentially, plus extra code for ensuring valid target
 	power/perceive - set mana levels appropriately
-	harness - another good magic verb
 	invoke (for cambrinth)
 	spells - set variables for each spell you know, and what other options you have (symbiosis, others?)
 	assess - plus set vars
@@ -215,6 +211,8 @@ Global variables are an order of magnitude slower than local variables at runtim
 	cards
 
 	carve
+
+	cast - in progress
 
 	center
 
@@ -526,7 +524,7 @@ Global variables are an order of magnitude slower than local variables at runtim
 
 	hangback
 
-	harness
+	harness - in progress
 
 	health
 
@@ -650,7 +648,7 @@ Global variables are an order of magnitude slower than local variables at runtim
 
 	loot - done
 
-	lower
+	lower - done
 
 	ltb
 
@@ -796,6 +794,8 @@ Global variables are an order of magnitude slower than local variables at runtim
 
 	premium
 
+	prepare - in progress
+
 	procrastinate
 
 	prod
@@ -854,7 +854,7 @@ Global variables are an order of magnitude slower than local variables at runtim
 
 	register
 
-	release
+	release - in progress
 
 	relist
 

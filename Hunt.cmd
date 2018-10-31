@@ -11,7 +11,7 @@ Hunt:
 	var Hunt.highestNumber 0
 	var Hunt.lastSearchTime 
 Hunting:
-	debuglevel 10
+	#debuglevel 10
 	action var Hunt.lastPath $1;echo %Hunt.lastPath when ^To the (.+):
 	action var Hunt.highestNumber $1;var Hunt.lastPrey $2;echo Hunt.lastPrey %Hunt.lastPrey;var Hunt.pathArray %Hunt.pathArray|%Hunt.lastPath;echo Hunt.pathArray: %Hunt.pathArray when ^\s\s(\d+)\)   (.+)$
 	action var Hunt.lastSearchTime $gametime;echo Hunt.lastSearchTime %Hunt.lastSearchTime;var Hunt.pathArray none;var Hunt.stepsTaken null when ^You take note of all the tracks in the area, so that you can hunt anything nearby down\.$

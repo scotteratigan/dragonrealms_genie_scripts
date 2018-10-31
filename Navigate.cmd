@@ -2,6 +2,7 @@
 #REQUIRE Information.cmd
 #REQUIRE Move.cmd
 #REQUIRE MoveRandom.cmd
+#REQUIRE Region.cmd
 #REQUIRE Release.cmd
 #REQUIRE Send.cmd
 #REQUIRE Stand.cmd
@@ -133,13 +134,13 @@ NavigateSkipLostCheck:
 	if ("$zoneid" == "150") then {
 		gosub NavigationMoveToNewMap 213
 		gosub NavigationResetMap
-		gosub RunScriptSafe region
+		gosub Region
 		if "$zoneid" == "%Navigate.destinationZone" then goto NavigateAlreadyInZone
 	}
 	if ("$zoneid" == "210") then {
 		gosub NavigationMoveToNewMap leave
 		gosub NavigationResetMap
-		gosub RunScriptSafe region
+		gosub Region
 		if "$zoneid" == "%Navigate.destinationZone" then goto NavigateAlreadyInZone
 	}
 goto zone$zoneid
@@ -1760,46 +1761,6 @@ WaitingForMapToLoad:
 	echo Pausing for map load...
 	pause
 	goto WaitingForMapToLoad
-
-RunScript:
-	# Example: gosub RunScript climb.cmd
-	eval ScriptToRun tolower("$1")
-	put .$0
-	gosub WaitScriptStart %ScriptToRun
-	gosub WaitOnScript %ScriptToRun
-	return
-
-WaitScriptStart:
-	# Wait for script to START
-	eval ScriptName tolower("$1")
-	waiteval contains("|$scriptlist|", "|%ScriptName.cmd|")
-	return
-
-WaitOnScript:
-	# Wait for script to END
-	eval ScriptName tolower("$1")
-WaitingOnScript:
-	pause .2
-	if !contains("|$scriptlist|", "|%ScriptName.cmd|") then return
-	goto WaitingOnScript
-
-RunScriptSafe:
-	# Also used in n.cmd
-	eval ScriptToRun tolower("$1")
-	var scriptHasStarted 0
-	action var scriptHasStarted 1 when eval contains("|$scriptlist|", "|%ScriptToRun.cmd|")
-	put .$0
-WaitingForScriptToRun:
-	delay .05
-	if %scriptHasStarted != 1 then goto WaitingForScriptToRun
-	action remove eval contains("|$scriptlist|", "|%ScriptToRun.cmd|")
-	var scriptHasEnded 0
-	action var scriptHasEnded 1 when eval !contains("|$scriptlist|", "|%ScriptToRun.cmd|")
-WaitingForScriptToEnd:
-	delay .05
-	if %scriptHasEnded == 0 then goto WaitingForScriptToEnd
-	action remove eval !contains("|$scriptlist|", "|%ScriptToRun.cmd|")
-	return
 
 NavigationResetMap:
 	put #var zoneid 0

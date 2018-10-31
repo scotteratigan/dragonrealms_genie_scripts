@@ -51,7 +51,7 @@ Sending:
 	matchre Sending ^\.\.\.wait.*$|^Sorry, you may.*$|^Sorry, system is slow.*$|^You don't seem to be able to move to do that.*$|^It's all a blur.*$|^You're unconscious\!.*$|^You are still stunned.*$|^You can't do that while entangled in a web\.$|^You struggle against the shadowy webs to no avail\.$|^You attempt that, but end up getting caught in an invisible box\.$|^Strangely, you don't feel like fighting right now\.$|^You can't seem to do that right now\!$|^You can't do that while entangled in a web\.$
 	matchre SendStopPlaying ^You are a bit too busy performing to do that\.$|^You are concentrating too much upon your performance to do that\.$
 	matchre SendStand ^You must stand first\.$
-	matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^I don't know what you are referring to\.$|^You can't do that\.$|^There is no need for violence here\.$
+	matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^I don't understand what you're referring to\.$|^I don't know what you are referring to\.$|^You can't do that\.$|^There is no need for violence here\.$|^You really shouldn't be loitering in here\.$
 	# Following is invoked in get/put/drop and possibly other verbs:
 	if (%Send.attempts < 10) then matchre Sending ^Something appears different about .+, perhaps try doing that again\.$
 	matchre SendGetVisible ^That would ruin your hiding place\.$
