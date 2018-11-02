@@ -1,6 +1,6 @@
 #REQUIRE Error.cmd
 #REQUIRE Information.cmd
-#REQUIRE Stand.cmd
+#DISABLED Stand.cmd <- this is a major issue. If you send stand, then you overwrite your Send.command variable. Not sure how to fix properly.
 #REQUIRE WaitStun.cmd
 #REQUIRE Warning.cmd
 # The base gosub to Send commands to the game.
@@ -41,7 +41,7 @@ Send:
 	var Send.response null
 	if ($stunned) then gosub WaitStun
 	if ("%Send.type" != "Q") then {
-		if (!$standing) then gosub STAND
+		if (!$standing) then put stand
 		# todo: add magic check here.
 		# todo: add playing music check here.
 	}
@@ -51,13 +51,14 @@ Sending:
 	matchre Sending ^\.\.\.wait.*$|^Sorry, you may.*$|^Sorry, system is slow.*$|^You don't seem to be able to move to do that.*$|^It's all a blur.*$|^You're unconscious\!.*$|^You are still stunned.*$|^You can't do that while entangled in a web\.$|^You struggle against the shadowy webs to no avail\.$|^You attempt that, but end up getting caught in an invisible box\.$|^Strangely, you don't feel like fighting right now\.$|^You can't seem to do that right now\!$|^You can't do that while entangled in a web\.$
 	matchre SendStopPlaying ^You are a bit too busy performing to do that\.$|^You are concentrating too much upon your performance to do that\.$
 	matchre SendStand ^You must stand first\.$
-	matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^I don't understand what you're referring to\.$|^I don't know what you are referring to\.$|^You can't do that\.$|^There is no need for violence here\.$|^You really shouldn't be loitering in here\.$
+	matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^I don't understand what you're referring to\.$|^I don't know what you are referring to\.$|^You can't do that\.$|^There is no need for violence here\.$|^You really shouldn't be loitering in here\.$|^You are a ghost\!  You must wait until someone resurrects you, or you decay\.  Either way, it won't be long now\! \(HELP for more details\)\.$|^You need at least one hand free to do that\.$|^But you aren't holding.*$
 	# Following is invoked in get/put/drop and possibly other verbs:
 	if (%Send.attempts < 10) then matchre Sending ^Something appears different about .+, perhaps try doing that again\.$
 	matchre SendGetVisible ^That would ruin your hiding place\.$
 	matchre SendFail %Send.failText
 	matchre SendWarning %Send.warningText
 	matchre SendOk %Send.successText
+	matchre SendStopPracticing ^You should stop practicing your Athletics skill before you do that\.$
 	put %Send.command
 	matchwait 10
 SendFail:
@@ -100,8 +101,13 @@ SendStopPlaying:
 	# todo: implement stop.cmd. In this instance, probably run it in-line versus bloating all other scripts.
 	put stop play
 	goto Sending
+SendStopPracticing:
+	put stop climb
+	goto Sending
 SendStand:
-	gosub Stand
+	#gosub Stand
+	send stand
+	pause .2
 	goto Sending
 
 EscapeSpecialCharacters:

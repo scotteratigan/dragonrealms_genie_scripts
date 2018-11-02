@@ -28,7 +28,7 @@ Wealth:
 	action eval Wealth.currency tolower($2);var Wealth.%Wealth.currency.silver $1 when (\d+) silver.*(Kronars|Lirums|Dokoras)\)\.$
 	action eval Wealth.currency tolower($2);var Wealth.%Wealth.currency.bronze $1 when (\d+) bronze.*(Kronars|Lirums|Dokoras)\)\.$
 	action eval Wealth.currency tolower($2);var Wealth.%Wealth.currency.copper $1 when (\d+) copper.*(Kronars|Lirums|Dokoras)\)\.$
-	gosub Send RT "wealth %Wealth.option" "^Wealth:" "^What kind of a coin is .*\?$" "WARNING MESSAGES"
+	gosub Send Q "wealth %Wealth.option" "^Wealth:" "^What kind of a coin is .*\?$" "WARNING MESSAGES"
 	pause .1
 	if ("%Send.success" == "1") then var Wealth.success 1
 	action remove when ^\s+No (Kronars|Lirums|Dokoras)\.$

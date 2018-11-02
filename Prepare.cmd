@@ -28,3 +28,8 @@ Preparing:
 #That will disrupt less than half your current attunement.
 #That will disrupt most of your current attunement!
 #You feel intense strain as you try to manipulate the mana streams to form this pattern, and you are not certain that you will have enough mental stamina to complete it.
+
+# > prepare sre
+# You play with the dead pattern in your mind, assessing your current state.
+# The power of your next rebirth will be enough to both resuscitate you and knit your wounds closed.
+# You have as much power as your state of being and knowledge of Thanatology allows.

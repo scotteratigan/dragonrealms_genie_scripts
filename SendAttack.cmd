@@ -51,13 +51,15 @@ SendingAttack:
 	#The fingers lands an apocalyptic strike (So that's what it felt like when Grazhir shattered!) that penetrates deeply into the muscles of the chest, stunning it.
 	#[You're nimbly balanced and in superior position.]
 	#[Roundtime 1 sec.]
-	if (%SendAttack.requiresWeapon == 1) then {
-		if (("$righthand" == "Empty") || ("$lefthand" == "Empty" && contains("%Attack.option", "left")) then {
+	
+	# Below code works, temporarily disabled to play fest game. Need to rethink this potentially.
+	#if (%SendAttack.requiresWeapon == 1) then {
+	#	if (("$righthand" == "Empty") || ("$lefthand" == "Empty" && contains("%Attack.option", "left")) then {
 			# right hand is empty, or attack type is left but left hand is empty.
-			gosub Error No weapon to %SendAttack.verb %SendAttack.option with!
-			return
-		}
-	}
+	#		gosub Error No weapon to %SendAttack.verb %SendAttack.option with!
+	#		return
+	#	}
+	#}
 	gosub Send RT "%SendAttack.verb %SendAttack.option" "^\[Roundtime \d+ sec\.\]$|^Roundtime: \d+ sec\.$" "^You aren't close enough to attack\.$|^The .+ is already quite dead\.$|^What are you trying to attack\?|^You must be closer to grapple your opponent\.$|^Wouldn't it be better if you used a melee weapon\?$|^You can't fire .+\!$|^But your .+ isn't loaded\!$|^How can you poach if you are not hidden\?$|^You can not slam with that\!$|^It's best you not do that to .+\.$"
 	if ("%Send.response" == "You aren't close enough to attack." || "%Send.response" == "You must be closer to use tactical abilities on your opponent." || "%Send.response" == "You must be closer to grapple your opponent.") then {
 		gosub AdvanceMelee

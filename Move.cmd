@@ -13,9 +13,12 @@ exit
 Move:
 	var Move.command $0
 	var Move.success 0
+	# Note: I'd love to match the ^You lurch/run/wander <direction> line because that won't get fooled by a look command.
+	# However, the issue is that when you GO through a portal or CLIMB, there is no text returned except the new room.
+	# ^Obvious (paths|exits):|^Ship paths:|^It's pitch dark
 Moving:
 	if (!$standing) then gosub Stand
-	gosub Send Q "%Move.command" "$moveSuccessStrings" "^You must be standing to do that\.$|^Stand up first\.$|^You should stop practicing your Athletics skill before you do that\.$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$|^You will have to climb that\.$|^An attendant approaches you and says, .Unfortunately, this shop is closed at the moment\..$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$|^You can't just leave your .+ lying on the floor\!$|^You must close the vault before leaving\!$|^Bonk\! You smash your nose\.$"
+	gosub Send Q "%Move.command" "^Obvious (paths|exits):|^Ship paths:|^It's pitch dark" "^You must be standing to do that\.$|^Stand up first\.$|^You can't do that while (kneeling|lying down|sitting)\!$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$|^You will have to climb that\.$|^An attendant approaches you and says, .Unfortunately, this shop is closed at the moment\..$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$|^You can't just leave your .+ lying on the floor\!$|^You must close the vault before leaving\!$|^Bonk\! You smash your nose\.$"
 	if (%Send.success) then {
 		var Move.success 1
 		return
@@ -40,7 +43,7 @@ Moving:
 		gosub RetreatQuickly
 		goto Moving
 	}
-	if (matchre("%Send.response", "^You must be standing to do that\.$|^Stand up first\.$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$")) then {
+	if (matchre("%Send.response", "^You must be standing to do that\.$|^Stand up first\.$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$|^You can't do that while (kneeling|lying down|sitting)\!$")) then {
 		gosub Stand
 		goto Moving
 	}
@@ -51,13 +54,6 @@ Moving:
 		gosub Climb %Move.climbCommand
 		if ("%Climb.success" == "1") then var Move.success 1
 		return
-	}
-	if (matchre("%Send.response", "^You should stop practicing your Athletics skill before you do that\.$")) then {
-		# todo: should this be in the generic send routine?
-		# todo: add Stop.cmd and gosub it here
-		put send stop practicing
-		wait
-		goto Moving
 	}
 	if (matchre("%Send.response", "^You can't just leave your (.+) lying on the floor\!")) then {
 		# Trying to leave the vault with items on the ground. No idea what to do so stow the items.

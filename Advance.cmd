@@ -9,7 +9,12 @@ exit
 Advance:
 	var Advance.option $0
 	if ($monstercount < 1) then gosub Error Advancing with monstercount < 1.
-	gosub Send Q "advance %Advance.option" "^You are already at melee with|^You begin to advance on|^You are already advancing on|^You begin to stealthily advance on|^You spin around to face .+\.$" "^What do you want to advance towards\?$|^The .+ is already quite dead\.$|^You have lost sight of your target, so you stop advancing\.$|^You will have to retreat from your current melee first\.$"
+	gosub Send Q "advance %Advance.option" "^You are already at melee with.*$|^You begin to advance on.*$|^You are already advancing on.*$|^You begin to stealthily advance on.*$|^You spin around to face .+\.$" "^What do you want to advance towards\?$|^The .+ is already quite dead\.$|^You have lost sight of your target, so you stop advancing\.$|^You will have to retreat from your current melee first\.$|^You had better stand up first\.$"
+	var Advance.response %Send.response
+	if ("%Send.response" == "You had better stand up first.") then {
+		gosub Stand
+		if (%Stand.success == 1) then goto Advance
+	}
 	return
 
 AdvanceMelee:

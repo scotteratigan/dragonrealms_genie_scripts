@@ -30,9 +30,7 @@ Global variables are an order of magnitude slower than local variables at runtim
 	Tertiary (maybe never) goal is to add RP verbs
 	recall warrant
 	health - needs to set info about wounds (and then tend.cmd if bleeding)
-	info - update to have numerical burden levels
 	target - same as cast, essentially, plus extra code for ensuring valid target
-	power/perceive - set mana levels appropriately
 	invoke (for cambrinth)
 	spells - set variables for each spell you know, and what other options you have (symbiosis, others?)
 	assess - plus set vars
@@ -42,8 +40,6 @@ Global variables are an order of magnitude slower than local variables at runtim
 	disarm / pick
 	swap / tie / untie / wield
 	unbundle (for bundling rope)/ uncoil (for climbing rope)
-	unhide
-	wealth (take triggers from info.cmd)
 	
 
 # Todos:

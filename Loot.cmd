@@ -17,7 +17,7 @@ Loot:
 	action var Loot.treasure $1;echo Treasure: $1 when ^The .+ was carrying (.+).$
 	action var Loot.equipment %Loot.treasure;echo Loot.equipment should be %Loot.treasure;var Loot.treasure $1 when ^You also find (.+)\!$
 	action var Loot.lodgedItems $1 when ^Lodged into it was (.+)\.$
-	gosub Send W "Loot %Loot.option" "^You search .+\.$" "^You should probably wait until .+ is dead first\.$|^The .+ has already been searched for that\$!"
+	gosub Send W "loot %Loot.option" "^You search .+\.$" "^You should probably wait until .+ is dead first\.$|^The .+ has already been searched for that\$!"
 	put #echo >Log white Looted: %Loot.mobName and found %Loot.treasure
 	#echo Looted: %Loot.mobName (%Loot.mobNoun)
 	#echo Equipment: %Loot.equipment

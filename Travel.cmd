@@ -2,6 +2,7 @@
 #REQUIRE Faldesu.cmd
 #REQUIRE Info.cmd
 #REQUIRE Information.cmd
+#REQUIRE Look.cmd
 #REQUIRE Move.cmd
 #REQUIRE Navigate.cmd
 #REQUIRE Region.cmd
@@ -55,6 +56,9 @@ Travel:
 TravelPrepare:
 	if ("$SpellTimer.UniversalSolvent.active" == "1") then gosub Release USOL
 	if ("$lefthand $righthand" != "Empty Empty") then gosub ClearHand both
+	# Todo: gosub this? (Maybe not because commands pretty much never fail.)
+	put set !description
+	put set !roomnames
 	gosub Region %Travel.destinationZone
 	if (contains("|150|210|", "|$zoneid|")) then {
 		if ("%Travel.destinationZone" != "$zoneid") then {
@@ -524,8 +528,16 @@ TravelByBargeTherenToRiverhaven:
 	return
 
 TravelToFinalDestination:
-	if ("$zoneid-$roomid" == "%Travel.destinationZone-%Travel.destinationRoom") then return
+
+	if ("$zoneid-$roomid" == "%Travel.destinationZone-%Travel.destinationRoom") then {
+		put set description
+		put set roomnames
+		return
+	}
 	gosub Navigate %Travel.destinationZone %Travel.destinationRoom
+	put set description
+	put set roomnames
+	gosub Look
 	if ("$zoneid" != "%Travel.destinationZone") then {
 		gosub Error Travel did not take me to proper zone.
 		return

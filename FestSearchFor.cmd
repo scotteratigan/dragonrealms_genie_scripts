@@ -9,6 +9,9 @@ exit
 
 FestSearchFor:
 	var searchObject $0
+	action goto FestSearchingFor when ^You can't go there\.$
+	#put #window add ScriptLog
+	#action put #echo >ScriptLog white $1 when ^You also see (.+)\.$
 FestSearchingFor:
 	if ("%searchObject" != "") then {
 		put #echo >Log searching for ^You also see.* %1
@@ -16,7 +19,8 @@ FestSearchingFor:
 	}
 	if ("%searchObject" == "") then {
 		put #echo >Log searching for extreme shop
-		action goto FoundIt when ^You also see a (decrepit|dilapidated|dingy|ramshackle|ruined|run-down|tumble-down) (arch|door|entryway|opening|stone arch|stone door|stone entryway|stone opening|wooden arch|wooden door|wooden entryway|wooden opening)
+		# Note: added broken-down on 2018/11/02 after we couldn't find it in the fest
+		action goto FoundIt when ^You also see a (broken-down|decrepit|dilapidated|dingy|ramshackle|ruined|run-down|tumble-down) (arch|door|entryway|opening|stone arch|stone door|stone entryway|stone opening|wooden arch|wooden door|wooden entryway|wooden opening)
 	}
 	gosub Navigate 210 75
 	#action if ("$roomobjs" != "") then put #echo >ScriptLog white $roomid: $roomobjs when ^You also see
@@ -31,7 +35,8 @@ FestSearchingFor:
 	put .automapper "north" "northwest" "west" "southwest" "northeast" "east" "northwest" "east" "west" "west" "southwest" "northeast" "east" "northwest" "west" "east" "southeast" "north" "east" "west" "northwest" "west" "east" "southeast" "northeast" "east" "southeast" "west" "east" "northeast" "east" "west" "southwest" "south" "west" "east" "northeast" "east" "west" "southwest" "east" "southeast" "northwest" "west" "southwest" "east" "southeast"
 	waitforre ^YOU HAVE ARRIVED
 	gosub Error Could not locate object.
-	goto FestSearchingFor
+	#goto FestSearchingFor
+	exit
 
 FoundIt:
 	put #script abort automapper
@@ -59,3 +64,6 @@ FoundIt:
 # [Assuming you mean a dingy arch.]
 # You can't go there.
 
+# Note: tim's regex:
+#var extreme_shop.regex \b((broken-down|(?<!shell of a )ruined|decaying|decrepit|dingy|neglected|rickety|ramshackle|run-down|tumble-down) (stone|wooden)? ?(cabana|cabin|house|hovel|lean-to|shack|hut|shed|shelter|wagon))\b
+#action put /notify Extreme shop in $zonename ($zoneid $roomid) $roomdesc $roomobjs;put #echo >Log Red Extreme shop in $zonename ($zoneid $roomid) $roomdesc $roomobjs when eval matchre($roomobjs, %extreme_shop.regex)

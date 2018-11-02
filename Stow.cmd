@@ -1,6 +1,7 @@
+#REQUIRE Close.cmd
 #REQUIRE Coil.cmd
 #REQUIRE Error.cmd
-##REQUIRE Nounify.cmd
+#REQUIRE Nounify.cmd
 ##REQUIRE Open.cmd
 #REQUIRE Send.cmd
 gosub Stow %0
@@ -9,7 +10,7 @@ exit
 Stow:
 	var Stow.command $0
 Stowing:
-	gosub Send Q "stow %Stow.command" "^You pick up .+$|^You put your .+$" "^But that's closed\.$|^I can't find your container for stowing things in\!  Type STORE HELP for information on how to set up your containers\.$|^You just can't get the .+ to fit|^That's too heavy to go in there\!$" "^The.+rope is too long, even after stuffing it, to fit in the .+\.$"
+	gosub Send Q "stow %Stow.command" "^You pick up .+$|^You put your .+$|^You carefully fit .+ into your bundle\.$" "^But that's closed\.$|^I can't find your container for stowing things in\!  Type STORE HELP for information on how to set up your containers\.$|^You just can't get the .+ to fit|^That's too heavy to go in there\!$|^You'll need to close .+ before you put it away\.$" "^The.+rope is too long, even after stuffing it, to fit in the .+\.$"
 	# todo: open closed container... need to determine where it was attempting to stow however.
 	# todo: if default store isn't set, look for a backpack in inventory and set it (will require a new STORE script, plus a script to get inventory items)
 	# Need to match ^You pick up for stowing coins, but delay until next line is processed in the normal case of stowing an item into a container.
@@ -28,6 +29,11 @@ Stowing:
 	if (matchre("%Send.response", "^The.+rope is too long")) then {
 		gosub Coil my rope
 		goto Stowing
+	}
+	if (matchre("%Send.response", "^You'll need to close (.+) before you put it away\.$")) then {
+		gosub Nounify $1
+		gosub Close my %Nounify.noun
+		if (%Close.success == 1) then goto Stowing
 	}
 	return
 

@@ -19,7 +19,8 @@ exit
 # birthday - the 7th day of the 5th month of Uthmor the Giant in the year of the Bronze Wyvern, 365 years after the victory of Lanival the Redeemer
 # favors - 5
 # tdps - 318
-# encumbrance - None, etc # todo: get list and convert to numerical amount
+# encumbranceText - None, Light Burden, etc
+# encumbranceLevel - 0 to 11
 # luck - average, etc # todo: get other values
 # pirpPoints - 5 (if you're in the pirp program)
 # baseStrength - 40
@@ -38,11 +39,12 @@ exit
 Info:
 	var Info.option $0
 	var Info.success 0
+	var Info.nameAndTitle 
 	action var Info.gender $1;var Info.age $2;var Info.circle $3 when ^Gender: (\w+)\s+Age: (\d+)\s+Circle: (\d+)$
 	action var Info.birthday $1 when ^You were born on (.+)\.$
 	action var Info.favors $1 when ^\s*Favors : (\d+)$
 	action var Info.tdps $1 when ^\s*TDPs : (\d+)$
-	action var Info.encumbrance $1 when ^\s*Encumbrance : (.*)$
+	action var Info.encumbranceText $1 when ^\s*Encumbrance : (.*)$
 	action var Info.luck $1 when ^\s*Luck : (.*)$
 	action var Info.pirpPoints $1 when ^\s+PIRP Points : (\d+)$
 	# Info triggers are complex because stats can be under active bonus or penalty. The triggers below are 2 part. First, it identifies the stat being displayed, then sets the base and current value.
@@ -89,5 +91,53 @@ Infoing:
 		eval Info.postTitle replacere("%Info.nameAndTitle", ".+, ", "")
 		echo preTitle: %Info.preTitle
 		echo postTitle: %Info.postTitle
+		if ("%Info.encumbranceText" == "None") then {
+			var Info.encumbranceLevel 0
+			return
+		}
+		if ("%Info.encumbranceText" == "Light Burden") then {
+			var Info.encumbranceLevel 1
+			return
+		}
+		if ("%Info.encumbranceText" == "Somewhat Burdened") then {
+			var Info.encumbranceLevel 2
+			return
+		}
+		if ("%Info.encumbranceText" == "Burdened") then {
+			var Info.encumbranceLevel 3
+			return
+		}
+		if ("%Info.encumbranceText" == "Heavy Burden") then {
+			var Info.encumbranceLevel 4
+			return
+		}
+		if ("%Info.encumbranceText" == "Very Heavy Burden") then {
+			var Info.encumbranceLevel 5
+			return
+		}
+		if ("%Info.encumbranceText" == "Overburdened") then {
+			var Info.encumbranceLevel 6
+			return
+		}
+		if ("%Info.encumbranceText" == "Very Overburdened") then {
+			var Info.encumbranceLevel 7
+			return
+		}
+		if ("%Info.encumbranceText" == "Extremely Overburdened") then {
+			var Info.encumbranceLevel 8
+			return
+		}
+		if ("%Info.encumbranceText" == "Tottering Under Burden") then {
+			var Info.encumbranceLevel 9
+			return
+		}
+		if ("%Info.encumbranceText" == "Are you even able to move?") then {
+			var Info.encumbranceLevel 10
+			return
+		}
+		if ("%Info.encumbranceText" == "It's amazing you aren't squashed!") then {
+			var Info.encumbranceLevel 11
+			return
+		}
 	}
 	return

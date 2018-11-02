@@ -6,13 +6,12 @@
 # Note: the standard gosub template would be difficult to implement here.
 # We can't pass %0 into $0 because the quotes are stripped out, rendering a movement string that can't be deciphered.
 # Example: "go path east north climb wall south"
-
-var maxSendQueue 3
+var maxSendQueue 2
 # Run slowly if we're searching for something:
 if contains("|$scriptlist|", "|festsearchfor.cmd|") then var maxSendQueue 1
 # Note: scriptlist is always lowercase.
 var sendQueue 0
-action instant goto AutomapperFailed when ^You can't do that while engaged\!$|^You can't go there\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^You can't do that\.$|^You must place it on the ground, before you can drag it anywhere\!$|^You must take it out of .+, before you can drag it anywhere\.$
+action instant goto AutomapperFailed when ^You can't do that while engaged\!$|^You can't go there\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^You can't do that\.$|^You must place it on the ground, before you can drag it anywhere\!$|^You must take it out of .+, before you can drag it anywhere\.$|^Sorry,.*$|^\.\.\.wait.*$
 action math sendQueue subtract 1;if %verboseMode == 1 then echo sendQueue is now %sendQueue when $moveSuccessStrings
 action echo Queue is negative! (%sendQueue) when eval(%sendQueue < 0)
 var verboseMode 0

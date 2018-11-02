@@ -1,6 +1,7 @@
 #REQUIRE SendAttack.cmd
 
 # Note: this is for the headbutt attack, which was given the humorous command name of 'butt'.
+
 gosub Butt %0
 exit
 

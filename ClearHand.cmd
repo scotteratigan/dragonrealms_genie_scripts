@@ -8,7 +8,6 @@
 # Todo: forging gear lists (will need to require put & tie at that point?)
 # Note: originally named Clear.cmd but you cannot 'gosub Clear' because that's a reserved word.
 
-#debuglevel 10
 gosub ClearHand %0
 exit
 

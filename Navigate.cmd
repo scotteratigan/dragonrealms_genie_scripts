@@ -13,12 +13,15 @@ exit
 Navigate:
 	var Navigate.destinationZone $1
 	var Navigate.destinationRoom $2
-	var Navigate.failedMoves 0
-	action math Navigate.failedMoves add 1;if %Navigate.failedMoves > 5 then goto Navigate when ^You can't go there\.|^What were you referring to\?
-	action goto NavigateArrested when ^Arriving at the jail, the guard submits you to a brutal strip search and throws your things into a large sack\.  From there you are dragged down a dark hallway and into a cell\.
-	action goto NavigateDestinationNotFound when ^DESTINATION NOT FOUND$
+	# Note: had to remove action goto because it breaks the gosub depth. Need to figure out new way to parse Destination Not Found also.
+	action var Navigation.failed 1 when ^You can't go there\.|^What were you referring to\?|^Sorry, you may only type ahead \d+ commands?\.$|^Arriving at the jail, the guard submits you to a brutal strip search
+	action var Navigate.haveArrived 1 when ^YOU HAVE ARRIVED
+	action var Navigate.destinationNotFound 1 when ^DESTINATION NOT FOUND$ 
+	#action goto NavigateDestinationNotFound when ^DESTINATION NOT FOUND$
 NavigateStart:
 	pause .01
+	var Navigate.failed 0
+	var Navigate.destinationNotFound 0
 	if ("$SpellTimer.UniversalSolvent.active" == "1") then gosub Release USOL
 	if ($standing != 1) then gosub Stand
 	if ("%Navigate.destinationZone" == "") then {
@@ -1737,19 +1740,31 @@ NavigationFinished:
 	return
 
 NavigationMoveTo:
-	pause .5
+	pause .1
 	var Navigate.roomToMoveTo $0
+NavigationMovingTo:
 	put /g %Navigate.roomToMoveTo
-	waitforre ^YOU HAVE ARRIVED
-	return
+	var Navigate.haveArrived 0
+NavigationWaitingOnCompletion:
+	pause .15
+	if (%Navigate.haveArrived == 1) then return
+	if (%Navigate.failed == 1) then {
+		goto NavigationMovingTo
+	}
+	if (%Navigate.destinationNotFound == 1) then {
+		# Assumes that random movement won't move me to new map. Ugh.
+		gosub MoveRandom
+		var Navigate.destinationNotFound 0
+		goto NavigationMovingTo
+	}
+	goto NavigationWaitingOnCompletion
 
 NavigationMoveToNewMap:
 	var Navigate.roomToMoveTo $0
 	var Navigate.originZone $zoneid
 	if ("$roomname" == "Caught, Behind the Spider") then gosub NavigateWaitOnSpider
 	if ("$roomid" == "0") then gosub NavigateMoveUntilRoomHasID
-	put /g %Navigate.roomToMoveTo
-	waitforre ^YOU HAVE ARRIVED
+	gosub NavigationMoveTo %Navigate.roomToMoveTo
 WaitingForMapToLoad:
 # todo: need to only wait a max amount of time....
 	if (contains("$roomdesc", "The landscape is dull and uninteresting, stretching for miles")) then {
@@ -1757,9 +1772,12 @@ WaitingForMapToLoad:
 		waitforre ^Just when it seems you will never reach the end of the road, you .+ through a patch of brush to your Navigate.roomToMoveTo\.\.\.
 		return
 	}
-	if ("$zoneid" != "%Navigate.originZone") then return
+	if ("$zoneid" != "%Navigate.originZone") then {
+		pause .1
+		return
+	}
 	echo Pausing for map load...
-	pause
+	pause .3
 	goto WaitingForMapToLoad
 
 NavigationResetMap:
@@ -1779,8 +1797,9 @@ NavigateArrested:
 NavigateDestinationNotFound:
 	# todo: better logic here
 	# call map reset, then begin navigation all over again
-	put #mapper reset
-	pause
+	#put #mapper reset
+	#pause
+	gosub MoveRandom
 	goto NavigateStart
 
 NavigateWaitOnSpider:

@@ -44,9 +44,6 @@ FestRafflebotDoubleCheckTicketBeforeTrashing:
      gosub ClearHand both
      goto FestRaffleBotLoop
 
-
-
-
 # Raffle text:
 # Raffle beginning:
 # Raffles?  Raffles!

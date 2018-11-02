@@ -1,8 +1,11 @@
 #REQUIRE Arrayify.cmd
+#REQUIRE Read.cmd
 #REQUIRE Send.cmd
 #REQUIRE Open.cmd
 gosub Look %0
 exit
+
+# Look.contentsList is the array of items you looked at
 
 Look:
 	var Look.target $0
@@ -18,11 +21,18 @@ Look:
 	# Look.exits is for looking in rooms where $roomexits variable doesn't set properly, like in the Crossing Temple:
 	action var Look.exits $2;if ("%Look.exits" == "none") then var Look.exits null when ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
 Looking:
-	gosub Send Q "look %Look.target" "$moveSuccessStrings|^In the .+ you see|^There is nothing in there\.$" "^That is closed\.$"
+	gosub Send Q "look %Look.target" "$moveSuccessStrings|^In the .+ you see|^There is nothing in there\.$" "^That is closed\.$" "^There appears to be something written on it\."
+	action remove ^In the (.+) you see (.+)\.$
+	action remove ^There is nothing in there\.$
+	action remove ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
 	if ("%Send.response" == "That is closed." && !Look.attemptedToOpen) then {
 		gosub Open %Look.target
 		var Look.attemptedToOpen 1
 		goto Looking
+	}
+	if ("%Send.response" == "There appears to be something written on it.") then {
+		gosub Read %Look.target
+		return
 	}
 	if ("%Look.contents" == "null") then {
 		var Look.contentsFullyListed -1
@@ -37,7 +47,15 @@ Looking:
 		gosub Arrayify %Look.exits
 		var Look.exitList %Arrayify.string
 	}
-	action remove ^In the (.+) you see (.+)\.$
-	action remove ^There is nothing in there\.$
-	action remove ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
+	
 	return
+
+# Todo: set other player look into variable?
+#You see Weapon Master Timbits, a Human Barbarian.
+#Timbits has a round face, limpid leaf-green eyes and a small nose.  His blonde hair is shoulder length and thick.  He has wrinkled skin and a stout build.
+#He is a bit over average height for a Human.
+#He appears to be an adult.
+#He has a thick bushy mustache that droops heavily on his upper lip and a long shaggy beard.
+#He is in good shape.
+#He is holding some yelith root in his right hand.
+#He is wearing a battered and bloody haversack sewn from the dirty skins of board trolls, a lumium bascinet, some lumium scale gloves, a lumium scale aventail, some lumium ring greaves, a padded heavy titanese shirt with fitted seams, a storm-bull targe sealed with protective wax, an ornate niello ring, a shiny megaphone emblazoned with "Two Bits! Four Bits! Six Bits! A Dollar!", a pair of delicately etched moonsilver zills edged with inkdrop agates, a purple gem pouch, a lopsided chakrel rock hanging from a silversteel nose ring, a sanowret crystal, a duffel bag, a studded toolstrap with black jasper beading, a wide leather toolstrap with braided cord ties, a belted kidskin baldric tooled with sinuous maiden's tress vines, a lockpick ring, a solid orange backpack with a dingy blue patch, a thigh quiver dyed in a brown and green camouflage pattern, a thick leather scroll case adorned with golden symbols, a jagged obsidian-bladed ankle knife, a book of master crafting instructions and a human skull hanging from a piece of twine.
