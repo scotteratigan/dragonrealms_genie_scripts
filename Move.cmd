@@ -18,7 +18,7 @@ Move:
 	# ^Obvious (paths|exits):|^Ship paths:|^It's pitch dark
 Moving:
 	if (!$standing) then gosub Stand
-	gosub Send Q "%Move.command" "^Obvious (paths|exits):|^Ship paths:|^It's pitch dark" "^You must be standing to do that\.$|^Stand up first\.$|^You can't do that while (kneeling|lying down|sitting)\!$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$|^You will have to climb that\.$|^An attendant approaches you and says, .Unfortunately, this shop is closed at the moment\..$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$|^You can't just leave your .+ lying on the floor\!$|^You must close the vault before leaving\!$|^Bonk\! You smash your nose\.$"
+	gosub Send Q "%Move.command" "^Obvious (paths|exits):|^Ship paths:|^It's pitch dark" "^You must be standing to do that\.$|^Stand up first\.$|^You can't do that while (kneeling|lying down|sitting)\!$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$|^You will have to climb that\.$|^An attendant approaches you and says, .Unfortunately, this shop is closed at the moment\..$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$|^You can't just leave your .+ lying on the floor\!$|^You must close the vault before leaving\!$|^Bonk\! You smash your nose\.$|^The .+ is closed\.$|^The .+ seems to be closed\.$|^You can't do that while entangled in a web\.$|^Sorry, they won't let you back in for awhile\.$"
 	if (%Send.success) then {
 		var Move.success 1
 		return
@@ -35,7 +35,7 @@ Moving:
 		gosub Stow %Move.itemAtFeet
 		goto Moving
 	}
-	if (matchre("%Send.response", "^You're still recovering from your recent (attack|cast)\.$")) then {
+	if (matchre("%Send.response", "^You're still recovering from your recent (attack|cast)\.$|^You can't do that while entangled in a web\.$")) then {
 		pause .2
 		goto Moving
 	}
@@ -68,11 +68,15 @@ Moving:
 		gosub Close vault
 		goto Moving
 	}
-	if ("%Send.response" == "Bonk! You smash your nose.") then {
+	if (matchre("%Send.response", "^The .+ is closed.$|^The .+ seems to be closed\.$|^Bonk\! You smash your nose\.$")) then {
 		# Hmm, portal was closed. Maybe I can open it?
 		eval Move.portal replacere("%Move.command", "^go ", "")
 		gosub Open %Move.portal
 		if ("%Open.success" == "1") then goto Moving
 		return
+	}
+	if ("%Send.response" == "Sorry, they won't let you back in for awhile.") then {
+		pause 15
+		goto Moving
 	}
 	return

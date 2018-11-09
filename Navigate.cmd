@@ -13,8 +13,9 @@ exit
 Navigate:
 	var Navigate.destinationZone $1
 	var Navigate.destinationRoom $2
+	var Navigate.success 0
 	# Note: had to remove action goto because it breaks the gosub depth. Need to figure out new way to parse Destination Not Found also.
-	action var Navigation.failed 1 when ^You can't go there\.|^What were you referring to\?|^Sorry, you may only type ahead \d+ commands?\.$|^Arriving at the jail, the guard submits you to a brutal strip search
+	action var Navigation.failed 1 when ^You can't go there\.|^What were you referring to\?|^Sorry, you may only type ahead \d+ commands?\.$|^You can't do that while engaged\!$|^I could not find what you were referring to\.$|^What were you referring to\?$|^You can't do that\.$|^You must place it on the ground, before you can drag it anywhere\!$|^You must take it out of .+, before you can drag it anywhere\.$|^Sorry,.*$|^\.\.\.wait.*$|^You can't do that while (lying down|kneeling|sitting)\!$|^Arriving at the jail, the guard submits you to a brutal strip search
 	action var Navigate.haveArrived 1 when ^YOU HAVE ARRIVED
 	action var Navigate.destinationNotFound 1 when ^DESTINATION NOT FOUND$ 
 	#action goto NavigateDestinationNotFound when ^DESTINATION NOT FOUND$
@@ -1737,6 +1738,7 @@ NavigateAlreadyInZone:
 	}
 	gosub NavigationMoveTo %Navigate.destinationRoom
 NavigationFinished:
+	var Navigate.success 1
 	return
 
 NavigationMoveTo:

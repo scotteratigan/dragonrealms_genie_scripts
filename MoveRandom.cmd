@@ -11,6 +11,7 @@ gosub MoveRandom %0
 exit
 
 MoveRandom:
+	#debuglevel 10
 	eval MoveRandom.option tolower("$0")
 	var MoveRandom.success 0
 	var MoveRandom.potentialDirections 
@@ -19,15 +20,16 @@ MoveRandom:
 		# If we get lost in a room with a lot of junk it may be hard to leave. Todo: filter list with the portal nouns... wherever I put that.
 		gosub Arrayify $roomobjs
 		gosub NounifyList %Arrayify.string
-		var MoveRandom.potentialDirections %MoveRandom.potentialDirections|%NounifyList.list
+		eval MoveRandom.roomObjs replacere("%NounifyList.list", "^|\|", "|go ")
+		var MoveRandom.potentialDirections %MoveRandom.potentialDirections|%MoveRandom.roomObjs
 	}
 	evalmath MoveRandom.normalPortalCount $north + $northeast + $east + $southeast + $south + $southwest + $west + $northwest + $up + $down + $out
+	echo normalPortalCount is %MoveRandom.normalPortalCount
 	if (%MoveRandom.normalPortalCount == 0) then {
 		# In rooms where roomexits are potentially broken, append manually:
 		gosub Look
-		if ("%Look.exitList" != "null") then {
-			var MoveRandom.potentialDirections %MoveRandom.potentialDirections|%Look.exitList
-			#eval MoveRandom.potentialDirections replacere("%MoveRandom.potentialDirections", "^\s*\|", "")
+		if ("%Look.exits" != "null") then {
+			var MoveRandom.potentialDirections %MoveRandom.potentialDirections|%Look.exits
 			eval MoveRandom.potentialDirections replacere("%MoveRandom.potentialDirections", "\|", "|go ")
 			# Note: can't grab text in a replacere ($1), and a matchre will only match once, so this is actually the best solution:
 			#eval MoveRandom.potentialDirections replace("%MoveRandom.potentialDirections", "clockwise", "go clockwise")
@@ -46,6 +48,9 @@ MoveRandom:
 	if ($up == 1) then var MoveRandom.potentialDirections %MoveRandom.potentialDirections|up
 	if ($down == 1) then var MoveRandom.potentialDirections %MoveRandom.potentialDirections|down
 	if ($out == 1) then var MoveRandom.potentialDirections %MoveRandom.potentialDirections|out
+	# Strip out begining | if it exists
+	eval MoveRandom.potentialDirections replacere("%MoveRandom.potentialDirections", "^\|+", "")
+	# Strip out any extra spaces
 	eval MoveRandom.potentialDirections replacere("%MoveRandom.potentialDirections", "^\s*\|", "")
 	eval MoveRandom.maxIndex count("%MoveRandom.potentialDirections", "|")
 	random 0 %MoveRandom.maxIndex

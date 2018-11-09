@@ -48,10 +48,10 @@ Send:
 Sending:
 	math Send.attempts add 1
 	pause .01
-	matchre Sending ^\.\.\.wait.*$|^Sorry, you may.*$|^Sorry, system is slow.*$|^You don't seem to be able to move to do that.*$|^It's all a blur.*$|^You're unconscious\!.*$|^You are still stunned.*$|^You can't do that while entangled in a web\.$|^You struggle against the shadowy webs to no avail\.$|^You attempt that, but end up getting caught in an invisible box\.$|^Strangely, you don't feel like fighting right now\.$|^You can't seem to do that right now\!$|^You can't do that while entangled in a web\.$
+	matchre Sending ^\.\.\.wait.*$|^Sorry, you may.*$|^Sorry, system is slow.*$|^You don't seem to be able to move to do that.*$|^It's all a blur.*$|^You're unconscious\!.*$|^You are still stunned.*$|^You can't do that while entangled in a web\.$|^You struggle against the shadowy webs to no avail\.$|^You attempt that, but end up getting caught in an invisible box\.$|^Strangely, you don't feel like fighting right now\.$|^You can't seem to do that right now\!$|^You can't do that while entangled in a web\.$|^You are so tightly wound in webbing, there is no way you could do that\.$
 	matchre SendStopPlaying ^You are a bit too busy performing to do that\.$|^You are concentrating too much upon your performance to do that\.$
-	matchre SendStand ^You must stand first\.$
-	matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^I don't understand what you're referring to\.$|^I don't know what you are referring to\.$|^You can't do that\.$|^There is no need for violence here\.$|^You really shouldn't be loitering in here\.$|^You are a ghost\!  You must wait until someone resurrects you, or you decay\.  Either way, it won't be long now\! \(HELP for more details\)\.$|^You need at least one hand free to do that\.$|^But you aren't holding.*$
+	matchre SendStand ^You must stand first\.$|^You'll need to stand up first\.$
+	matchre SendFail ^Please rephrase that command\.$|^I could not find what you were referring to\.$|^What were you referring to\?$|^I don't understand what you're referring to\.$|^I don't know what you are referring to\.$|^You can't do that\.$|^There is no need for violence here\.$|^You really shouldn't be loitering in here\.$|^You are a ghost\!  You must wait until someone resurrects you, or you decay\.  Either way, it won't be long now\! \(HELP for more details\)\.$|^You need at least one hand free to do that\.$|^But you aren't holding.*$|^\[A Junk Yard\]$
 	# Following is invoked in get/put/drop and possibly other verbs:
 	if (%Send.attempts < 10) then matchre Sending ^Something appears different about .+, perhaps try doing that again\.$
 	matchre SendGetVisible ^That would ruin your hiding place\.$

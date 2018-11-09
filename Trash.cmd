@@ -25,7 +25,7 @@ Trash:
 	if (contains("$roomobjs", "a waste bin")) then var Trash.receptacle waste bin
 	if (contains("$roomobjs", "a waste bucket")) then var Trash.receptacle waste bucket
 	if (contains("$roomobjs", "an ivory urn")) then var Trash.receptacle ivory urn
-	if (contains("$roomobjs", "bucket of viscous gloop")) then var Trash.receptacle bucket
+	if (contains("$roomobjs", "a bucket of viscous gloop")) then var Trash.receptacle bucket
 	if (contains("$roomobjs", "driftwood log")) then var Trash.receptacle driftwood log
 	if (contains("$roomobjs", "a bucket of pumpkin-colored viscous gloop")) then var Trash.receptacle bucket
 	# Thieves' Guild bucket is not in roomobjs:

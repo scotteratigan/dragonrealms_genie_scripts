@@ -42,12 +42,14 @@
 # A nearby attendant explains, "Perhaps you should return when you have enough coins."
 
 FestBloodAndGourd:
+	if ($health < 40) then goto Exit
+	if ($dead == 1) then goto Exit
 	action var FestBloodAndGourd.currentPrize $1 when ^.*Noticing something in the pumpkin debris, you reach down and pick up (.+)\!$
-
 	#var FestBloodAndGourd.trashList carving knife|black bandana|felt cuff|cotton handkerchief|crocheted gloves|silk garter|green socks|pink rosecloth fabric|tattered black fabric|mask|zombie mask|skull mask|pumpkin mask|silk scarf|orange bandana|orange socks|pumpkin-orange scarf|white socks|asini-embellished amulet|leather wristlet|leather wristlet|horseshoe ring|knotwork torque|silk necklace|steel ring|ivory earcuff|skull pin|raven charm|ape charm|blown-glass pumpkin|gold cufflinks|obsidian ghoul raven earrings|pumpkin earrings|asini fangs|skeleton earrings|pumpkin charm|pumpkin pin|pumpkin-shaped charm|rabbit's foot amulet|ruby nose-stud|ear cuff|silver necklace|slender bracelet|pumpkin seeds|platinum ring|wormwood ring|zombie pin|zombie-shaped charm|bloodshot eyeballs|cross-eyed zombies|dancing skeletons|fuzzy bats|pale ghosts|plush pumpkins|leather shoe|pumpkin-shaped jellybeans|plush beetle|pumpkin-headed doll|roasted seeds|pumpkin muffin|pumpkin-shaped mug|tankard|decaying shoe|piece of net|copper button|fishing line|tattered scarf|green ribbon
-	var FestBloodAndGourd.trashList a bone-hilted carving knife|a carving knife encrusted with dried orange gunk|a coral-hilted carving knife set with a large freshwater pearl|a black bandana painted with dancing skeletons|a black felt cuff cut to resemble a bat|a cotton handkerchief splattered with orange stains|some green crocheted gloves crafted to resemble curling vines|a green silk garter edged with tiny leaves|some green socks embroidered with dancing zombies|a length of pink rosecloth fabric|a length of tattered black fabric|a mask of a cross-eyed zombie|a mask of a grinning skull|a mask of a scowling pumpkin|a mildewed silk scarf riddled with holes|an orange bandana embroidered with black cats|some orange socks embroidered with black skeletons|a pumpkin-orange scarf edged with green fringe|some white socks embroidered with orange pumpkins|an asini-embellished bloody stump amulet|a braided leather wristlet interlaced with garnet beads|a braided leather wristlet interlaced with jade beads|a gold and diamond horseshoe ring|a gold knotwork torque set with polished ivory|a green silk necklace sewn to resemble a vine|a heavy steel ring set with a rough-cut obsidian skull|an ivory earcuff carved to resemble a maggot|an ivory skull pin carved with a goofy grin|an obsidian ghoul raven charm|any onyx ape charm|an orange blown-glass pumpkin suspended from a green silk cord|a pair of gold cufflinks set with carved topaz|a pair of obsidian ghoul raven earrings|a pair of pumpkin earrings|a pair of sanguine asini fangs|a pair of skeleton earrings|a polished gold pumpkin charm set with an emerald leaf|a pumpkin pin|a pumpkin-shaped charm|a rabbit's foot amulet enameled in red at the severed end|a ruby nose-stud carved to resemble a drop of blood|a sapphire ear cuff inlaid with tiny silver stars|a silver necklace strung with onyx feathers|a slender bracelet of green silk sewn to resemble a vine|a string of preserved pumpkin seeds|a twisted platinum ring set with an orange beryl pumpkin|a wormwood ring carved to resemble a maggot|a zombie pin|a zombie-shaped charm|some bloodshot eyeballs|some miniature cross-eyed zombies|some miniature dancing skeletons|some miniature fuzzy bats|some miniature pale ghosts|some plush pumpkins with green felt leaves|a cambrinth orb shaped like a pumpkin|a dark cambrinth bracer engraved with a large spider|a giant cambrinth radish sculpted from multicolored agate|a round cambrinth peach brushed with pale pink glitter|a triangular piece of cambrinth tart stuffed with chunks of garnet filling|a wedge of cambrinth sandwich with dark aventurine watercress|a half-eaten leather shoe disfigured by abundant bite marks|some orange pumpkin-shaped jellybeans|a pudgy plush beetle|a pumpkin-headed doll dressed in gauzy white rags|some roasted pumpkin seeds|a sanguine-hued gutting knife with a punka-wrapped handle|a soft pumpkin muffin|a squat pumpkin-shaped mug|a tankard crafted from a misshapen skull|a decaying shoe|a piece of net|a pitted copper button|a tangled fishing line|a tattered scarf|a torn green ribbon
+	var FestBloodAndGourd.trashList a bone-hilted carving knife|a carving knife encrusted with dried orange gunk|a coral-hilted carving knife set with a large freshwater pearl|a black bandana painted with dancing skeletons|a black felt cuff cut to resemble a bat|a cotton handkerchief splattered with orange stains|some green crocheted gloves crafted to resemble curling vines|a green silk garter edged with tiny leaves|some green socks embroidered with dancing zombies|a length of pink rosecloth fabric|a length of tattered black fabric|a mask of a cross-eyed zombie|a mask of a grinning skull|a mask of a scowling pumpkin|a mildewed silk scarf riddled with holes|an orange bandana embroidered with black cats|some orange socks embroidered with black skeletons|a pumpkin-orange scarf edged with green fringe|some white socks embroidered with orange pumpkins|an asini-embellished bloody stump amulet|a braided leather wristlet interlaced with garnet beads|a braided leather wristlet interlaced with jade beads|a gold and diamond horseshoe ring|a gold knotwork torque set with polished ivory|a green silk necklace sewn to resemble a vine|a heavy steel ring set with a rough-cut obsidian skull|an ivory earcuff carved to resemble a maggot|an ivory skull pin carved with a goofy grin|an obsidian ghoul raven charm|any onyx ape charm|an orange blown-glass pumpkin suspended from a green silk cord|a pair of gold cufflinks set with carved topaz|a pair of obsidian ghoul raven earrings|a pair of pumpkin earrings|a pair of sanguine asini fangs|a pair of skeleton earrings|a polished gold pumpkin charm set with an emerald leaf|a pumpkin pin|a pumpkin-shaped charm|a rabbit's foot amulet enameled in red at the severed end|a ruby nose-stud carved to resemble a drop of blood|a sapphire ear cuff inlaid with tiny silver stars|a silver necklace strung with onyx feathers|a slender bracelet of green silk sewn to resemble a vine|a string of preserved pumpkin seeds|a twisted platinum ring set with an orange beryl pumpkin|a wormwood ring carved to resemble a maggot|a zombie pin|a zombie-shaped charm|some bloodshot eyeballs|some miniature cross-eyed zombies|some miniature dancing skeletons|some miniature fuzzy bats|some miniature pale ghosts|some plush pumpkins with green felt leaves|a cambrinth orb shaped like a pumpkin|a dark cambrinth bracer engraved with a large spider|a giant cambrinth radish sculpted from multicolored agate|a round cambrinth peach brushed with pale pink glitter|a triangular piece of cambrinth tart stuffed with chunks of garnet filling|a wedge of cambrinth sandwich with dark aventurine watercress|a half-eaten leather shoe disfigured by abundant bite marks|some orange pumpkin-shaped jellybeans|a pudgy plush beetle|a pumpkin-headed doll dressed in gauzy white rags|some roasted pumpkin seeds|a sanguine-hued gutting knife with a punka-wrapped handle|a soft pumpkin muffin|a squat pumpkin-shaped mug|a tankard crafted from a misshapen skull|a decaying shoe|a piece of net|a pitted copper button|a tangled fishing line|a tattered scarf|a torn green ribbon|an onyx ghoul raven pin|an articulated cambrinth bracer crafted from overlapping scales|a blood-splattered weapon harness with a troll-tooth fringe|a rencate cambrinth bracer emblazoned with helicoid accents|an inky black trapper's pouch shaped like a panther's paw|an onyx ape charm
 	gosub ClearHand both
 	if ("$SpellTimer.Devour.active" != "1") then gosub FestCastDevour
+	if ($health < 70) then gosub FestCastDevour
 	gosub Navigate 210 388
 	gosub TendLeeches
 	if ($bleeding == 1) then gosub TendBleeders
@@ -59,8 +61,8 @@ FestBloodAndGourd:
 	gosub East
 	if ("$lefthand $righthand" != "Empty Empty") then {
 		if ("%FestBloodAndGourd.currentPrize" == "null") then {
-			put #flash
-			put #beep
+			#put #flash
+			#put #beep
 			echo PRIZE NOT DETECTED!
 			exit
 		}
@@ -84,9 +86,13 @@ FestBloodAndGourdSaveOrTrashItem:
 		gosub Trash #$righthandid
 		return
 	}
-	put #beep
-	put #flash
+	#put #beep
+	#put #flash
 	put #echo >ScriptLog cyan Found something good: %FestBloodAndGourd.currentPrize
 	echo Found something good: %FestBloodAndGourd.currentPrize
 	gosub ClearHand both
 	return
+
+Exit:
+	put exit
+	exit

@@ -1,5 +1,6 @@
 #REQUIRE ClearHand.cmd
 #REQUIRE Navigate.cmd
+#REQUIRE NavigateRoomName.cmd
 #REQUIRE Go.cmd
 #REQUIRE Move.cmd
 #REQUIRE Get.cmd
@@ -15,12 +16,13 @@ FestRafflebotInitialize:
      action goto FestRafflebotClaimPrize when ^$charactername's name appears on the result board\!
      action goto FestRafflebotDoubleCheckTicketBeforeTrashing when ^Raffle Attendant Kentikatili exclaims, "Congratulations to all our winners
 FestRaffleBotStart:
-     gosub ClearHand both
-     gosub Navigate 210 78
-     gosub Go iron arch
+     #gosub ClearHand both
+     gosub NavigateRoomName 210 562 The Massive Arachnid, Raffle Center
+     #gosub Go iron arch
      # Following fix is required because of custom room mechanics to prevent crashes in prime:
-     put #mapper roomid 562
-     gosub Get ticket
+     #put #mapper roomid 562
+     if (!contains("$lefthand $righthand", "Empty")) then gosub ClearHand left
+     gosub Get ticket from counter
      goto FestRaffleBotLoop
 
 FestRaffleBotLoop:
@@ -34,7 +36,7 @@ FestRaffleBotDone:
      exit
 
 FestRafflebotGetTicket:
-     gosub Get ticket
+     gosub Get ticket from counter
      goto FestRaffleBotLoop
 
 FestRafflebotClaimPrize:

@@ -11,7 +11,7 @@ Error:
 		var Error.message %Error.message (L $lefthand #$lefthandid|R $righthand #$righthandid)
 	}
 	# Display the error in the game log window:
-	put #echo >Log red Error: %scriptname.cmd %Error.message
+	put #echo >ScriptLog red Error: %scriptname.cmd %Error.message
 	# Save to log file to allow review later. Very useful with $gametime because it is a unique search string:
 	put #log Error: %scriptname.cmd %Error.message
 	# Optional parse to trigger off of specific error messages:

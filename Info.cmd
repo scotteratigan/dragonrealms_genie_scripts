@@ -141,3 +141,6 @@ Infoing:
 		}
 	}
 	return
+
+# You are carrying more than 490 items!  Please reduce your inventory count IMMEDIATELY!
+# You are carrying more than 400 items on your person!  Please reduce your inventory count below this number.

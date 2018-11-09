@@ -92,20 +92,31 @@ Inventory:
 	action var Inventory.rightHand Empty;var Inventory.leftHand $1 when ^In your left hand, you are carrying (.+)\.$
 	action var Inventory.rightHand $1;var Inventory.leftHand Empty when ^In your right hand, you are carrying ([\w\- ]+)\.$
 Inventorying:
-	gosub Send Q "inventory %Inventory.option" "^\[Type INVENTORY HELP for more options\]$" "^  INV HELD   - Shows you what you have in your hands\.$"
+	gosub Send Q "inventory %Inventory.option" "^\[Type INVENTORY HELP for more options\]$" "^You'll need to be holding .+ to do that\!$|^  INV HELD   - Shows you what you have in your hands\.$"
 	if ("%Inventory.text" != "") then {
 		eval Inventory.text replacere("%Inventory.text", "^\|", "")
 	}
 	if ("%Inventory.fullText" != "") then {
 		eval Inventory.fullText replacere("%Inventory.fullText", "^\|", "")
 	}
+	# Todo: don't nounify list by default, it takes too much CPU when there are many items in pack. (Search all scripts that use this and have them manually call NounifyList.)
 	if ("%Inventory.text" != "") then {
 		gosub NounifyList %Inventory.text
 		var Inventory.nounList %NounifyList.list
 		var Inventory.maxIndex %NounifyList.maxIndex
 	}
-	# todo: add action removes here
+	action remove ^You are wearing (.+)\.$
+	action remove ^All of your (\w+):$
+	action remove ^Inside the (.+), you see:
+	action remove ^Items worn (.+):\s+(\d+)/\d+$
+	action remove ^You take a moment and rummage about your person, taking stock of your possessions\.\.\.$
+	action remove ^     +\-(.+)$|^  +([\S]+)$
+	action remove ^Both of your hands are empty\.$
+	action remove ^In your right hand, you are carrying (.+), and in your left hand, you are carrying (.+)\.$
+	action remove ^In your left hand, you are carrying (.+)\.$
+	action remove ^In your right hand, you are carrying ([\w\- ]+)\.$
 	return
+
 #	Slot name 			how to access (command, case sensitive)		Text that appears first. (Note, only appears if you have an item of that type worn)
 #	Misc				body 						All of your items worn on the body:
 #	Back 				back 						All of your items worn on the back:

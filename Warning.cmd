@@ -10,7 +10,7 @@ Warning:
 		var Warning.message %Warning.message (L $lefthand #$lefthandid|R $righthand #$righthandid)
 	}
 	# Display the Warning in the game log window:
-	put #echo >Log yellow Warning: %scriptname.cmd %Warning.message
+	put #echo >ScriptLog yellow Warning: %scriptname.cmd %Warning.message
 	# Save to log file to allow review later. Very useful with $gametime because it is a unique search string:
 	put #log Warning: %scriptname.cmd %Warning.message
 	# Optional parse to trigger off of specific Warning messages:

@@ -8,16 +8,29 @@
 # Todo: forging gear lists (will need to require put & tie at that point?)
 # Note: originally named Clear.cmd but you cannot 'gosub Clear' because that's a reserved word.
 
+# Todo: re-do this script complete.
+# Issues:
+# Naming scheme not correct, all variables should be ClearHand.blah
+# ClearLeft and ClearRight should be separate scripts
+# This is just all wrong...
+
+# Delay to allow script running detection:
+delay .01
 gosub ClearHand %0
 exit
 
 ClearHand:
 	eval Clear.option tolower("$0")
-	var Clear.success 0
+	var ClearHand.success 0
 ClearingHand:
 	if (contains("left|both", "%Clear.option")) then gosub ClearLeft
 	if (contains("right|both", "%Clear.option")) then gosub ClearRight
-	if ("$lefthand $righthand" == "Empty Empty") then var Clear.success 1
+	if ("$lefthand $righthand" == "Empty Empty") then {
+		var ClearHand.success 1
+		return
+	}
+	if ("%Clear.option" == "left") then if ("$lefthand") == "Empty" then var ClearHand.success 1
+	if ("%Clear.option" == "right") then if ("$righthand") == "Empty" then var ClearHand.success 1
 	return
 
 ClearLeft:

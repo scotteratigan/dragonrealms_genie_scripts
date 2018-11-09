@@ -32,7 +32,7 @@ Store:
 	var Store.success 0
 	action var Store.$1 $2 when ^\s*(ammunition|armor|gems|herbs|instruments|lockpicks|melee weapons|ranged weapons|shields|skins|thrown weapons|boxes|Default):  (.+)$
 Storing:
-	gosub Send Q "store %Store.option" "^\s*Default: .*$|^You will now store.+$" "^To use the STORE verb, you need to STORE \[OPTION\] IN \[CONTAINER\]\.$" "WARNING MESSAGES"
+	gosub Send Q "store %Store.option" "^\s*Default: .*$|^You will now store.+$|^You will now use your .+ to store any items you haven't categorized\.$" "^To use the STORE verb, you need to STORE \[OPTION\] IN \[CONTAINER\]\.$" "WARNING MESSAGES"
 	if ("%Send.success" == "1") then var Store.success 1
 	action remove ^\s*(ammunition|armor|gems|herbs|instruments|lockpicks|melee weapons|ranged weapons|shields|skins|thrown weapons|boxes):  (.+)$
 	return

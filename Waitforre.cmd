@@ -1,11 +1,13 @@
 #REQUIRE Error.cmd
 # implements the equivalent of matchwait x, using matchwait
-gosub Waitforre %1 %2
+gosub Waitforre %0
 exit
 
 Waitforre:
 	var Waitforre.seconds $1
-	var Waitforre.matchres $2
+	var Waitforre.matchres $0
+	eval Waitforre.matchres replacere("%Waitforre.matchres", "^%Waitforre.seconds ", "")
+	echo Waiting For: %Waitforre.matchres
 	var Waitforre.response null
 	if (!matchre("%Waitforre.seconds", "^\d+$")) then {
 		gosub Error with Waitforre.cmd, wait time is not a number. Usage: gosub Waitforre 2 sometext. You entered Waitforre $1 $2.

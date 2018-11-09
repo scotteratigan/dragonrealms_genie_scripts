@@ -11,7 +11,7 @@ Harness:
 	if (matchre("%Harness.command", "^\s*(\d+)")) then var Harness.mana $1
 	else var Harness.mana 0
 Harnessing:
-	gosub Send RT "harness %Harness.command" "^You tap into the mana" "^Strain though you may, you are unable to harness and localize this much energy around yourself\.$|^You reconsider attempting to harness this much energy around yourself at once\.$" "WARNING MESSAGES"
+	gosub Send RT "harness %Harness.command" "^You tap into the mana.*$" "^Strain though you may, you are unable to harness and localize this much energy around yourself\.$|^You reconsider attempting to harness this much energy around yourself at once\.$" "WARNING MESSAGES"
 	if ("%Send.success" == "1") then var Harness.success 1
 	return
 

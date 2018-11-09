@@ -9,7 +9,7 @@ exit
 Prepare:
 	var Prepare.command $0
 	var Prepare.success 0
-	var Prepare.strings You mutter incoherently to yourself while preparing|You raise your arms skyward, chanting|^You raise your palms skyward, chanting
+	var Prepare.strings You mutter incoherently to yourself while preparing|You raise your arms skyward, chanting|You raise your palms skyward, chanting|You hastily shout the arcane phrasings needed|With great force, you slap your hands together before you and slowly pull them apart,
 Preparing:
 	gosub Send Q "prepare %Prepare.command" "^%Prepare.strings.*$" "^You have no idea how to cast that spell\.$|^You are already preparing the .+ spell\!$|^Prepare a spell by name or abbreviation followed by a numerical amount.*$" "WARNING MESSAGES"
 	if ("%Send.success" == "1") then {

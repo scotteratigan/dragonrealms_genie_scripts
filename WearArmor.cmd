@@ -37,6 +37,7 @@ WearArmor:
 	var WearArmor.nounContainer %Nounify.noun
 	gosub Rummage /a my %WearArmor.nounContainer
 	var WearArmor.armorList %Rummage.nounList
+	if ("%Rummage.nounList" == "null") then return
 	gosub WearArmorFromList
 	return
 

@@ -6,7 +6,7 @@ gosub Coil %0
 exit
 
 Coil:
-	eval Coil.item tolower("$0")
+	eval Coil.item $0
 	if ("%Coil.item" == "") then {
 		gosub Error Coil.cmd called without specifying an item.
 		return

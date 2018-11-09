@@ -2,10 +2,15 @@
 #REQUIRE Read.cmd
 #REQUIRE Send.cmd
 #REQUIRE Open.cmd
+
 gosub Look %0
 exit
 
-# Look.contentsList is the array of items you looked at
+# Look.contents - list of items with commas
+# Look.contentsList - array of items you looked at: some copper coins|some bronze coins
+# Look.containerArea - in|on|under
+# Look.contentsFullyListed - boolean, true if "and a lot of other stuff"
+# Look.exits - room exits: You also see "(.+)"
 
 Look:
 	var Look.target $0
@@ -15,15 +20,15 @@ Look:
 	var Look.contentsList null
 	var Look.contentsCount -1
 	var Look.contentsFullyListed 1
-	action var Look.containerName $1;var Look.contents $2 when ^In the (.+) you see (.+)\.$
-	action var Look.contentsCount 0 when ^There is nothing in there\.$
+	action var Look.containerArea $1;var Look.containerName $2;var Look.contents $3 when ^(In|On|Under) the (.+) you see (.+)\.$
+	action var Look.contentsCount 0 when ^There is nothing (in|on|under) there\.$
 	action var Look.contentsFullyListed 0 when ^In the .+ you see .* a lot of other stuff\.$
 	# Look.exits is for looking in rooms where $roomexits variable doesn't set properly, like in the Crossing Temple:
 	action var Look.exits $2;if ("%Look.exits" == "none") then var Look.exits null when ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
 Looking:
-	gosub Send Q "look %Look.target" "$moveSuccessStrings|^In the .+ you see|^There is nothing in there\.$" "^That is closed\.$" "^There appears to be something written on it\."
-	action remove ^In the (.+) you see (.+)\.$
-	action remove ^There is nothing in there\.$
+	gosub Send Q "look %Look.target" "^(In|On|Under) the .+ you see .+\.$|^There is nothing (in|on|under) there\.$|^Obvious (paths|exits):|^Ship paths:|^It's pitch dark.*$|^The anvil's surface looks clean and ready for forging\.$" "^That is closed\.$" "^There appears to be something written on it\."
+	action remove ^(In|On|Under) the (.+) you see (.+)\.$
+	action remove ^There is nothing (in|on|under) there\.$
 	action remove ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
 	if ("%Send.response" == "That is closed." && !Look.attemptedToOpen) then {
 		gosub Open %Look.target
@@ -42,12 +47,12 @@ Looking:
 		var Look.contentsList %Arrayify.string
 		eval Look.contentsCount count("%Look.contentsList", "|")
 		math Look.contentsCount add 1
+		echo Look.contents %Look.contents
 	}
 	if ("%Look.exits" != "null") then {
 		gosub Arrayify %Look.exits
 		var Look.exitList %Arrayify.string
 	}
-	
 	return
 
 # Todo: set other player look into variable?

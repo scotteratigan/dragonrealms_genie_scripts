@@ -1,5 +1,6 @@
 #REQUIRE Error.cmd
 #REQUIRE Nounify.cmd
+
 gosub NounifyList %0
 exit
 
@@ -22,4 +23,5 @@ NounifyingList:
 	eval NounifyList.list replacere("%NounifyList.list", "^\|", "")
 	var NounifyingList.success 1
 	put #tvar NounifyList.list %NounifyList.list
+	#echo List is %NounifyList.list
 	return

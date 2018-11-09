@@ -2,6 +2,9 @@
 
 # Ok, the advanced functionality is working, but since all variables are local you can't really use it from the command line... I'll have to think about which direction I want to go here (no pun intended)
 
+# Creates 2 arrays:
+# Hunt.
+
 gosub Hunt %0
 exit
 
@@ -13,14 +16,13 @@ Hunt:
 Hunting:
 	#debuglevel 10
 	action var Hunt.lastPath $1;echo %Hunt.lastPath when ^To the (.+):
-	action var Hunt.highestNumber $1;var Hunt.lastPrey $2;echo Hunt.lastPrey %Hunt.lastPrey;var Hunt.pathArray %Hunt.pathArray|%Hunt.lastPath;echo Hunt.pathArray: %Hunt.pathArray when ^\s\s(\d+)\)   (.+)$
-	action var Hunt.lastSearchTime $gametime;echo Hunt.lastSearchTime %Hunt.lastSearchTime;var Hunt.pathArray none;var Hunt.stepsTaken null when ^You take note of all the tracks in the area, so that you can hunt anything nearby down\.$
+	action var Hunt.highestNumber $1;var Hunt.lastPrey $2;echo Hunt.lastPrey %Hunt.lastPrey;var Hunt.pathArray %Hunt.pathArray|%Hunt.lastPath;echo Hunt.pathArray: %Hunt.pathArray;var Hunt.preyArray %Hunt.preyArray|$2;echo Hunt.preyArray: %Hunt.preyArray when ^\s\s(\d+)\)   (.+)$
+	action var Hunt.lastSearchTime $gametime;echo Hunt.lastSearchTime %Hunt.lastSearchTime;var Hunt.pathArray ;var Hunt.preyArray ;var Hunt.stepsTaken null when ^You take note of all the tracks in the area, so that you can hunt anything nearby down\.$
 	action var Hunt.originRoom $roomid;echo Hunted from Hunt.originRoom %Hunt.originRoom;var Hunt.lastTrackTime $gametime;echo Hunt.lastTrackTime %Hunt.lastTrackTime;eval Hunt.stepsTaken element("%Hunt.pathArray", %Hunt.option);echo Steps taken: %Hunt.stepsTaken when ^You move to hunt down your prey\.$
-	gosub Send RT "hunt %Hunt.option" "^You take note of all the tracks in the area, so that you can hunt anything nearby down\.$|^You move to hunt down your prey\.$" "^You don't have that target currently available\.$|^You'll need to be in the area you found the tracks in order to hunt along them\.$" "WARNING MESSAGES"
+	gosub Send RT "hunt %Hunt.option" "^You take note of all the tracks in the area, so that you can hunt anything nearby down\.$|^You move to hunt down your prey\.$" "^You find yourself unable to hunt in this area\.$|^You don't have that target currently available\.$|^You'll need to be in the area you found the tracks in order to hunt along them\.$" "WARNING MESSAGES"
 	pause .05
 	if ("%Send.success" == "1") then var Hunt.success 1
 	echo Hunt.highestNumber %Hunt.highestNumber
-
 	return
 
 #>hunt

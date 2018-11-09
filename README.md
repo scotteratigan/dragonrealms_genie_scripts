@@ -21,6 +21,7 @@ Why are almost all variables local if the idea is a global inter-connected scrip
 Global variables are an order of magnitude slower than local variables at runtime, due to the fact that they can trigger global actions in the client. They are simply inefficient. In this project, global variables will be used mostly to store preferences rather than runtime values. Tempoarary globals may be used as appropriate, but I'm still developing guidelines for this.
 
 #Future plans include benchmarking in terms of:
+	-robustness (how often script hangs due to unforseen situation)
 	-runtime speed, compared to traditional approaches
 	-new script development time
 
@@ -30,16 +31,15 @@ Global variables are an order of magnitude slower than local variables at runtim
 	Tertiary (maybe never) goal is to add RP verbs
 	recall warrant
 	health - needs to set info about wounds (and then tend.cmd if bleeding)
-	target - same as cast, essentially, plus extra code for ensuring valid target
 	invoke (for cambrinth)
 	spells - set variables for each spell you know, and what other options you have (symbiosis, others?)
 	assess - plus set vars
 	collect/ forage
-	count
-	deposit / exchange / withdraw
 	disarm / pick
-	swap / tie / untie / wield
-	unbundle (for bundling rope)/ uncoil (for climbing rope)
+	tie / untie / wield
+	unbundle (for bundling rope)
+# New helper scripts needed
+	WaitEvalX Waits for a statement to evaluate true, for x seconds (similar concept to WaitforreX)
 	
 
 # Todos:
