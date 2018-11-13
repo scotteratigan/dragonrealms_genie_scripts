@@ -13,7 +13,7 @@ Open:
 	# Todo: replace this with just the box adjectives/nouns?:
 	action var Open.boxContents $1 when ^In the .+ you see (.+)\.$
 Opening:
-	gosub Send Q "open %Open.target" "^You open.*$|^The .+ opens\.$|^With a practiced flick of your wrist, you snap open your .+\.$" "^It is locked\.$|^You rattle the handle to the .+\.  It's locked\.$|^You rattle the handle on .+  It appears to be locked\.$" "^That is already open\.$"
+	gosub Send Q "open %Open.target" "^You open.*$|^The .+ opens\.$|^With a practiced flick of your wrist, you snap open your .+\.$" "^It is locked\.$|^You rattle the handle to the .+\.  It's locked\.$|^You rattle the handle on .+  It appears to be locked\.$" "^That is already open\.$|^But it's already opened up as far as it will go\!$"
 	var Open.response %Send.response
 	# Pause below allows script to grab box contents in that special case:
 	if (%Send.success == 1) then var Open.success 1

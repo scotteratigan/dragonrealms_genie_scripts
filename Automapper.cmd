@@ -16,7 +16,7 @@ if contains("|$scriptlist|", "|festsearchfor.cmd|") then var maxSendQueue 1
 # Todo: allow a var to control this setting?
 # Note: scriptlist is always lowercase.
 var sendQueue 0
-action goto AutomapperFailed when ^\.\.\.wait.*$|^I could not find what you were referring to\.$|^Sorry,.*$|^What were you referring to\?$|^You can't do that\.$|^You can't go there\.$|^You can't swim in that direction\.$|^You must place it on the ground, before you can drag it anywhere\!$|^You must take it out of .+, before you can drag it anywhere\.$
+action goto AutomapperFailed when ^\.\.\.wait.*$|^I could not find what you were referring to\.$|^Sorry,.*$|^What were you referring to\?$|^You can't do that\.$|^You can't go there\.$|^You can't swim in that direction\.$|^You must place it on the ground, before you can drag it anywhere\!$|^You must take it out of .+, before you can drag it anywhere\.$|^.* are not allowed to go there\.$
 action send stand;send %previousMovementType %previousMovement when ^You can't do that while kneeling\!$|^You can't do that while lying down\.$|^You can't do that while sitting\!$|^You must be standing to do that\.$
 action send retreat;send retreat;send %currentMovement when ^You can't do that while engaged\!$
 action math sendQueue subtract 1;if (%verboseMode == 1) then echo sendQueue is now %sendQueue when ^Obvious (paths|exits):|^Ship paths:|^It's pitch dark

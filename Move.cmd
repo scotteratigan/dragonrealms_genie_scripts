@@ -1,7 +1,8 @@
 #REQUIRE Climb.cmd
 #REQUIRE Close.cmd
-#REQUIRE Open.cmd
 #REQUIRE Nounify.cmd
+#REQUIRE Open.cmd
+#REQUIRE Pull.cmd
 #REQUIRE Retreat.cmd
 #REQUIRE Send.cmd
 #REQUIRE Stand.cmd
@@ -18,6 +19,10 @@ Move:
 	# ^Obvious (paths|exits):|^Ship paths:|^It's pitch dark
 Moving:
 	if (!$standing) then gosub Stand
+	if (contains("$lefthand $righthand", "fishing pole")) then {
+		gosub Pull my fishing pole
+		gosub Stow my fishing pole
+	}
 	gosub Send Q "%Move.command" "^Obvious (paths|exits):|^Ship paths:|^It's pitch dark" "^You must be standing to do that\.$|^Stand up first\.$|^You can't do that while (kneeling|lying down|sitting)\!$|^You notice .+ at your feet, and do not wish to leave it behind\.$|^You're still recovering from your recent (attack|cast)\.$|^You are engaged to|^You can't do that while engaged\!$|^You can't go there\.$|^You will have to climb that\.$|^An attendant approaches you and says, .Unfortunately, this shop is closed at the moment\..$|^Running heedlessly over the rough terrain, you trip over an exposed root and are sent flying .+\.$|^You can't just leave your .+ lying on the floor\!$|^You must close the vault before leaving\!$|^Bonk\! You smash your nose\.$|^The .+ is closed\.$|^The .+ seems to be closed\.$|^You can't do that while entangled in a web\.$|^Sorry, they won't let you back in for awhile\.$"
 	if (%Send.success) then {
 		var Move.success 1

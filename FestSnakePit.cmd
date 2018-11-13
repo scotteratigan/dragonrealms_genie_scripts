@@ -1,26 +1,53 @@
-#REQUIRE Get.cmd
+#REQUIRE CheckSRE.cmd
 #REQUIRE ClearHand.cmd
-#REQUIRE Stand.cmd
-#REQUIRE Navigate.cmd
+#REQUIRE Connect.cmd
+#REQUIRE Depart.cmd
+#REQUIRE FestCastDevour.cmd
+#REQUIRE FestTrashOrKeep.cmd
+#REQUIRE Get.cmd
+#REQUIRE Info.cmd
+#REQUIRE NavigateRoomName.cmd
+#REQUIRE FestCastDevour.cmd
 
-if ("$charactername" != "Mousey") then  {
-	echo This script is for your noob only!
-	exit
-}
-gosub Navigate 210 snake
+gosub FestSnakePit
+exit
 
 FestSnakePit:
-	gosub Get treasure
-	pause 10
-	if ($dead == 1) then goto FestSnakePitDied
+	if ("$charactername" != "Rellie") then  {
+		echo This script is for high level necromancers only!
+		exit
+	}
+	gosub CheckSRE
+	if (%CheckSRE.ready != 1) then {
+		echo Not ready for snake pit yet.
+		return
+	}
+	gosub Info
+	if (%Info.baseCharisma > %Info.currentCharisma) then {
+		echo Under effects of death sickness, aborting.
+		return
+	}
+	if ("$SpellTimer.Devour.active" != "1") then gosub FestCastDevour
 	gosub ClearHand both
-	goto FestSnakePit
+	gosub Navigate 210 snake The Snake Pit
+	gosub Get treasure
+	pause
+	if ($dead == 1) then {
+		gosub Connect RellieDRF
+		gosub Depart death
+		pause
+		if ($dead == 1) then {
+			echo Failed to depart death?!
+			put exit
+			exit
+		}
+	}
+	if ("$lefthand" != "Empty") then gosub FestTrashOrKeep left
+	if ("$righthand" != "Empty") then gosub FestTrashOrKeep right
+	gosub ClearHand both
+	gosub FestCastDevour
+	return
 
-FestSnakePitDied:
-	pause 15
-	put depart
-	wait
-	gosub Stand
-	gosub Navigate 210 77
-	gosub Navigate 210 snake
-	goto FestSnakePit
+
+# baseStrength - 40
+# currentStrength

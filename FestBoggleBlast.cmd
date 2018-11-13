@@ -9,8 +9,17 @@
 #REQUIRE Navigate.cmd
 #REQUIRE Send.cmd
 #REQUIRE Trash.cmd
+#REQUIRE FestTrashOrKeep.cmd
+
+FestBoggleBlastCommandLineRun:
+	gosub FestBoggleBlast
+	#echo Looping because run via command line...
+	#goto FestBoggleBlastCommandLineRun
+	exit
 
 FestBoggleBlast:
+	if ("$SpellTimer.Devour.active" != "1") then gosub FestCastDevour
+	if ($health < 70) then gosub FestCastDevour
 	action var FestBoggleBlast.shotsRemaining $1 when ^You have (\d+) shots? remaining\.$
 	action var FestBoggleBlast.shotsRemaining 0 when ^You've taken all your shots\.  You should hurry and get your prize\!$
 	action var FestBoggleBlast.needMoreCoin 1 when ^The farmer frowns at you as you search your pockets for the money
@@ -36,6 +45,7 @@ FestBoggleBlasting:
 	if (matchre("$roomname", "Boggle Blast, \w+ Room")) then {
 		var FestBoggleBlast.shotsRemaining -1
 		# Putting all this in a conditional because I don't want to get pumpkins in the wrong room - stalls script.
+		gosub ClearHand both
 		gosub Get orange pumpkin
 		gosub Load large slingshot with my pumpkin
 		gosub Fire large slingshot
@@ -43,11 +53,8 @@ FestBoggleBlasting:
 	}
 	gosub Move go door
 	gosub Get prize
-	if ("%FestBoggleBlast.prize" != "null") then {
-		if (contains("%FestBoggleBlast.junkItemsList", "%FestBoggleBlast.prize")) then gosub Trash my $righthandnoun
-	}
+	if ("$lefthand" != "Empty") then gosub FestTrashOrKeep left
+	if ("$righthand" != "Empty") then gosub FestTrashOrKeep right
 	gosub ClearHand both
-	if ("$SpellTimer.Devour.active" != "1") then gosub FestCastDevour
-	if ($health < 70) then gosub FestCastDevour
-	goto FestBoggleBlasting
+	return
 

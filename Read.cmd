@@ -9,7 +9,7 @@ Read:
 	var Read.success 0
 	# Read.text contains the entire output, as an array.
 	var Read.text
-	var Read.matchres ^\s*-=\s+(Chapter|Table).+$|^You take a few moments to glance through the catalog.*$|^You open .+ up to page.*$|^You flip open your .+ book and see\.\.\..*$|^The .+ contains a complete description of the .+ spell\.$|^Written in delicately formed letters on the first page of the catalog.*$|^.* reads:\s*$|^The .+ contains a complete description of the .+ spell.*$|^You open your logbook and sort through its contents\.$
+	var Read.matchres ^\s*-=\s+(Chapter|Table).+$|^You take a few moments to glance through.+catalog.*$|^You open .+ up to page.*$|^You flip open your .+ book and see\.\.\..*$|^The .+ contains a complete description of the .+ spell\.$|^Written in delicately formed letters on the first page of the catalog.*$|^.* reads:\s*$|^The .+ contains a complete description of the .+ spell.*$|^You open your logbook and sort through its contents\.$
 	action (getReadText) action (getReadText) off when ^XML-<prompt time
 	action (getReadText) var Read.text %Read.text|$1 when ^(.+)$
 	action (getReadText) off

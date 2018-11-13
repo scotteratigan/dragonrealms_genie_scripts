@@ -25,17 +25,22 @@ Look:
 	action var Look.contentsFullyListed 0 when ^In the .+ you see .* a lot of other stuff\.$
 	# Look.exits is for looking in rooms where $roomexits variable doesn't set properly, like in the Crossing Temple:
 	action var Look.exits $2;if ("%Look.exits" == "none") then var Look.exits null when ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
+	action var Look.poleBaited 0 when ^The pole isn't baited\.$
+	action var Look.poleBaited 1 when ^The pole is baited with .*\.$
 Looking:
-	gosub Send Q "look %Look.target" "^(In|On|Under) the .+ you see .+\.$|^There is nothing (in|on|under) there\.$|^Obvious (paths|exits):|^Ship paths:|^It's pitch dark.*$|^The anvil's surface looks clean and ready for forging\.$" "^That is closed\.$" "^There appears to be something written on it\."
+	gosub Send Q "look %Look.target" "^(In|On|Under) the .+ you see .+\.$|^There is nothing (in|on|under) there\.$|^Obvious (paths|exits):|^Ship paths:|^It's pitch dark.*$|^The anvil's surface looks clean and ready for forging\.$|^You see nothing unusual\.$|^It's a.*fishing pole .*$" "^That is closed\.$" "^There appears to be something written on it\."
+	var Look.response %Send.response
 	action remove ^(In|On|Under) the (.+) you see (.+)\.$
 	action remove ^There is nothing (in|on|under) there\.$
 	action remove ^(Obvious exits|Obvious paths|Ship paths): (.+)\.$
-	if ("%Send.response" == "That is closed." && !Look.attemptedToOpen) then {
+	action remove ^The pole isn't baited\.$
+	action remove ^The pole is baited with .*\.$
+	if ("%Look.response" == "That is closed." && !Look.attemptedToOpen) then {
 		gosub Open %Look.target
 		var Look.attemptedToOpen 1
 		goto Looking
 	}
-	if ("%Send.response" == "There appears to be something written on it.") then {
+	if ("%look.response" == "There appears to be something written on it.") then {
 		gosub Read %Look.target
 		return
 	}

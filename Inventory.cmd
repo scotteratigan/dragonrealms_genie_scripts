@@ -90,7 +90,7 @@ Inventory:
 	action var Inventory.rightHand Empty;var Inventory.leftHand Empty when ^Both of your hands are empty\.$
 	action var Inventory.rightHand $1;var Inventory.leftHand $2 when ^In your right hand, you are carrying (.+), and in your left hand, you are carrying (.+)\.$
 	action var Inventory.rightHand Empty;var Inventory.leftHand $1 when ^In your left hand, you are carrying (.+)\.$
-	action var Inventory.rightHand $1;var Inventory.leftHand Empty when ^In your right hand, you are carrying ([\w\- ]+)\.$
+	action var Inventory.rightHand $1;var Inventory.leftHand Empty when ^In your right hand, you are carrying ([\w\-' ]+)\.$
 Inventorying:
 	gosub Send Q "inventory %Inventory.option" "^\[Type INVENTORY HELP for more options\]$" "^You'll need to be holding .+ to do that\!$|^  INV HELD   - Shows you what you have in your hands\.$"
 	if ("%Inventory.text" != "") then {
@@ -114,7 +114,7 @@ Inventorying:
 	action remove ^Both of your hands are empty\.$
 	action remove ^In your right hand, you are carrying (.+), and in your left hand, you are carrying (.+)\.$
 	action remove ^In your left hand, you are carrying (.+)\.$
-	action remove ^In your right hand, you are carrying ([\w\- ]+)\.$
+	action remove ^In your right hand, you are carrying ([\w\-' ]+)\.$
 	return
 
 #	Slot name 			how to access (command, case sensitive)		Text that appears first. (Note, only appears if you have an item of that type worn)

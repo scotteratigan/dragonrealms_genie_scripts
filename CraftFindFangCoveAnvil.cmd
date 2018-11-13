@@ -1,4 +1,8 @@
+#REQUIRE Clean.cmd
+#REQUIRE ClearHand.cmd
+#REQUIRE Drop.cmd
 #REQUIRE Error.cmd
+#REQUIRE Get.cmd
 #REQUIRE Look.cmd
 #REQUIRE Move.cmd
 #REQUIRE Navigate.cmd
@@ -13,6 +17,9 @@ CraftFindFangCoveAnvil:
 	var CraftFindFangCoveAnvil.freeToUse 0
 	var CraftFindFangCoveAnvil.anvilNumber 0
 	var CraftFindFangCoveAnvil.success 0
+	var CraftFindFangCoveAnvil.cleanAnvil 0
+	var CraftFindFangCoveAnvil.leftHandID #$lefthandid
+	var CraftFindFangCoveAnvil.rightHandID #$righthandid
 CraftFindingFangCoveAnvil:
 	if ("$roomname" == "Forging Society, Forge") then {
 		gosub CraftFindFangCoveAnvilCheckRoom
@@ -23,8 +30,11 @@ CraftFindingFangCoveAnvil:
 	}
 	math CraftFindFangCoveAnvil.anvilNumber add 1
 	if (%CraftFindFangCoveAnvil.anvilNumber > 3) then {
-		gosub Error Couldn't find free anvil to forge, aborting.
-		return
+		# Falsely encountered this too many times due to race condition.
+		#gosub Error Couldn't find free anvil to forge, aborting.
+		#return
+		var CraftFindFangCoveAnvil.anvilNumber 1
+		var CraftFindFangCoveAnvil.cleanAnvil 1
 	}
 	if ("$roomid" == "0") then {
 		put #mapper reset
@@ -40,11 +50,27 @@ CraftFindingFangCoveAnvil:
 	gosub Navigate 150 anvil%CraftFindFangCoveAnvil.anvilNumber
 	goto CraftFindingFangCoveAnvil
 
-
 CraftFindFangCoveAnvilCheckRoom:
 	if ("$roomplayers" != "") then return
 	gosub Look on anvil
-	var Anvil.contents %Look.contents
-	if ("%Anvil.contents" != "null") then return
+	var CraftFindFangCoveAnvil.contents %Look.contents
+	if ("%CraftFindFangCoveAnvil.contents" != "null") then {
+		# On first pass, we return.
+		if (%CraftFindFangCoveAnvil.cleanAnvil == 1) then {
+			# On our second pass, we will clean an anvil if the room is empty.
+			gosub Clean anvil
+			if (%Clean.success == 1) then goto CraftFindFangCoveAnvilCheckRoom
+			gosub Nounify %CraftFindFangCoveAnvil.contents
+			var CraftFindFangCoveAnvil.noun %Nounify.noun
+			gosub ClearHand both
+			gosub Get %CraftFindFangCoveAnvil.noun from anvil
+			# Dropping is safer than trashing. Although cleaning still isn't safe...
+			gosub Drop my %CraftFindFangCoveAnvil.noun
+			if ("%CraftFindFangCoveAnvil.rightHandID" != "") then gosub Get %CraftFindFangCoveAnvil.rightHandID
+			if ("%CraftFindFangCoveAnvil.leftHandID" != "") then gosub Get %CraftFindFangCoveAnvil.leftHandID
+			var CraftFindFangCoveAnvil.success 1
+		}
+		return
+	}
 	var CraftFindFangCoveAnvil.success 1
 	return

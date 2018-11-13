@@ -14,7 +14,7 @@ Withdraw:
 	}
 	action var Withdraw.throttled 1 when ^The clerk glares at you\.  .I don't know what you think you're doing.*$|^One of the guards lunges and grabs at you\.  He exclaims, .Hey\!  Slow down\!.*$
 Withdrawing:
-	gosub Send Q "withdraw %Withdraw.command" "^The clerk counts out.*$|^Searching methodically through the shelves, you finally manage to locate the jar labeled \S+, and thrust your hand inside.*$|^You find your jar with little effort, thankfully, and thrust your hand.*$" "^You must be at a bank teller's window to withdraw money\.$|^The clerk flips through her ledger, then says .\w+, you do not seem to have an account.*$|^The clerk glares at you\.  .I don't know what you think you're doing.*$|^One of the guards lunges and grabs at you\.  He exclaims, .Hey\!  Slow down\!.*$" "WARNING MESSAGES"
+	gosub Send Q "withdraw %Withdraw.command" "^The clerk counts out.*$|^Searching methodically through the shelves, you finally manage to locate the jar labeled .+, and thrust your hand inside.*$|^You find your jar with little effort, thankfully, and thrust your hand.*$" "^You must be at a bank teller's window to withdraw money\.$|^The clerk flips through her ledger, then says .\w+, you do not seem to have an account.*$|^The clerk glares at you\.  .I don't know what you think you're doing.*$|^One of the guards lunges and grabs at you\.  He exclaims, .Hey\!  Slow down\!.*$" "WARNING MESSAGES"
 	action remove ^The clerk glares at you\.  .I don't know what you think you're doing.*$|^One of the guards lunges and grabs at you\.  He exclaims, .Hey\!  Slow down\!.*$
 	if ("%Send.success" == "1") then {
 		var Withdraw.success 1

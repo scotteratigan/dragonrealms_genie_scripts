@@ -5,15 +5,16 @@ gosub Health
 exit
 
 Health:
-	var Health.bleeding 0
 	var Health.bodyPartsList head|left eye|right eye|neck|chest|abdomen|back|left arm|right arm|left hand|right hand|left leg|right leg|tail|skin
-	action var Health.leechList ;var Health.leechArray ;var Health.bleederArray when ^Your body feels.*$|^Your spirit feels.*$
+	action var Health.leechList ;var Health.leechArray ;var Health.bleederArray ;var Health.bleeding 0;var Health.poisoned 0 when ^Your body feels.*$|^Your spirit feels.*$
 	action var Health.leechList $1 when ^You have (.*leech.*)\.$
 	action var Health.bleederArray %Health.bleederArray|$1 when ^\s+(%Health.bodyPartsList)
+	action var Health.poisoned 1 when ^You have.*poison
 	gosub Send Q "health" "^Your body feels.*$|^Your spirit feels.*$" "FAIL MESSAGES" "WARNING MESSAGES"
 	action remove ^Your body feels.*$|^Your spirit feels.*$
 	action remove ^You have (.*leech.*)\.$
 	action remove ^\s+(%Health.bodyPartsList)
+	action remove ^You have.*poison
 	if ("%Health.bleederArray" != "") then {
 		var Health.bleeding 1
 		eval Health.bleederArray replacere("%Health.bleederArray", "^\|", "")
@@ -69,3 +70,7 @@ Health:
 # 19%-10%	terribly wounded	extremely bad shape
 # 9%-1%	near death	death's door
 # <1%	in death's grasp	dead
+
+# Your body feels at full strength.
+# Your spirit feels full of life.
+# You have a critically strong nerve poison.

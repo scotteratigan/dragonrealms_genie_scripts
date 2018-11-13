@@ -61,7 +61,7 @@ Info:
 	action var Info.debtZoluren 0;var Info.debtTherengia 0;var Info.debtIlithi 0;var Info.debtQi 0;var Info.debtForfedhdar 0 when ^Debt:
 	action var Info.debtProvince $1;var Info.debt%Info.debtProvince $2 when ^  You owe .+ (\S+)\. \((\d+) copper (Kronars|Lirums|Dokoras)\)$
 Infoing:
-	gosub Send RT "info %Info.option" "^ Intelligence|^Concentration|^       Favors|^Wealth|^Debt" "^.* is an invalid option\.$" "WARNING MESSAGES"
+	gosub Send Q "info %Info.option" "^ Intelligence|^Concentration|^       Favors|^Wealth|^Debt" "^.* is an invalid option\.$" "WARNING MESSAGES"
 	pause .01
 	if ("%Send.success" == "1") then var Info.success 1
 	action remove ^Gender: (\w+)\s+Age: (\d+)\s+Circle: (\d+)$
@@ -142,5 +142,6 @@ Infoing:
 	}
 	return
 
+# You are carrying between 0 and 50 items on you.
 # You are carrying more than 490 items!  Please reduce your inventory count IMMEDIATELY!
 # You are carrying more than 400 items on your person!  Please reduce your inventory count below this number.

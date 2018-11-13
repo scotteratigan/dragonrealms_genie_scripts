@@ -5,13 +5,16 @@
 #REQUIRE Error.cmd
 #REQUIRE Get.cmd
 #REQUIRE Measure.cmd
+#REQUIRE Navigate.cmd
 #REQUIRE NavigateRoomName.cmd
+#REQUIRE Order.cmd
 #REQUIRE Pound.cmd
 #REQUIRE Pour.cmd
 #REQUIRE Push.cmd
 #REQUIRE Put.cmd
 #REQUIRE Study.cmd
 #REQUIRE Turn.cmd
+#REQUIRE Withdraw.cmd
 
 # Example:
 # .CraftForgeItem weaponsmithing a metal broadsword
@@ -41,6 +44,7 @@ exit
 CraftForgeItem:
 	var CraftForgeItem.discipline $1
 	eval CraftForgeItem.itemToForge replace("$0", "%CraftForgeItem.discipline ", "")
+	var CraftForgeItem.success 0
 	var CraftForgeItem.ingotID #$righthandid
 	if ("$righthandnoun" != "ingot") then {
 		gosub Error You must start script with ingot in right hand!
@@ -152,11 +156,18 @@ CraftForgeItemGrabPoundedItem:
 		}
 	}
 	# Todo: detect if we need to grind this via action, only perform grindstone steps if necessary.
+	if (contains("$lefthand $righthand", "%CraftForgeItem.noun")) then var CraftForgeItem.success 1
 	if ("$charactername" != "Rellie") then return
 	gosub NavigateRoomName 150 anvil%CraftForgeItem.anvilNumber Forging Society, Forge
 	gosub Turn grindstone
 	gosub Push grindstone with my %CraftForgeItem.noun
 	gosub Get my oil
+	if (!contains("$lefthand $righthand", "oil")) then {
+		gosub Navigate 150 teller
+		gosub Withdraw 8 silver
+		gosub Navigate 150 forgingtools
+		gosub Order 6
+	}
 	gosub Pour my oil on my %CraftForgeItem.noun
 	gosub ClearHand left
 	return
