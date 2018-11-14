@@ -21,9 +21,8 @@ Health:
 	}
 	if ("%Health.leechList" != "") then {
 		gosub Arrayify %Health.leechList
-		var Health.leechArray %Arrayify.string
+		var Health.leechArray %Arrayify.list
 	}
-	
 	return
 
 # Todo: add wound detection, lodged item detection, bleeder detection

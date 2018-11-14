@@ -1,4 +1,5 @@
 #REQUIRE Inventory.cmd
+#REQUIRE Nounify.cmd
 #REQUIRE RemoveStow.cmd
 #REQUIRE Warning.cmd
 
@@ -10,19 +11,21 @@ RemoveArmor:
 	var RemoveArmor.itemFailure 0
 	gosub Inventory armor
 	var RemoveArmor.maxIndex %Inventory.maxIndex
-	var RemoveArmor.nounList %Inventory.nounList
+	var RemoveArmor.list %Inventory.list
 	var RemoveArmor.index 0
-	if ("%RemoveArmor.nounList" == "") then {
+	if ("%RemoveArmor.list" == "") then {
 		gosub Warning RemoveArmor called with no armor worn.
 		return
 	}
 RemovingArmor:
-	eval RemoveArmor.lastItem element("%RemoveArmor.nounList", %RemoveArmor.index)
+	eval RemoveArmor.lastItem element("%RemoveArmor.list", %RemoveArmor.index)
+	gosub Nounify %RemoveArmor.lastItem
+	var RemoveArmor.lastItem %Nounify.noun
 	gosub Remove %RemoveArmor.lastItem
-	if ("%Remove.success" != "1") then var RemoveArmor.itemFailure 1
-	if ("%Remove.success" == "1") then {
+	if (%Remove.success != 1) then var RemoveArmor.itemFailure 1
+	if (%Remove.success == 1) then {
 		gosub Stow %RemoveArmor.lastItem
-		if ("%Stow.success" != "1") then var RemoveArmor.itemFailure 1
+		if (%Stow.success != 1) then var RemoveArmor.itemFailure 1
 	}
 	math RemoveArmor.index add 1
 	if (%RemoveArmor.index <= %RemoveArmor.maxIndex) then goto RemovingArmor

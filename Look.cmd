@@ -49,14 +49,14 @@ Looking:
 	}
 	if ("%Look.contents" != "null") then {
 		gosub Arrayify %Look.contents
-		var Look.contentsList %Arrayify.string
+		var Look.contentsList %Arrayify.list
 		eval Look.contentsCount count("%Look.contentsList", "|")
 		math Look.contentsCount add 1
 		echo Look.contents %Look.contents
 	}
 	if ("%Look.exits" != "null") then {
 		gosub Arrayify %Look.exits
-		var Look.exitList %Arrayify.string
+		var Look.exitList %Arrayify.list
 	}
 	return
 

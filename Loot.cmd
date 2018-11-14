@@ -29,13 +29,13 @@ Loot:
 	action remove ^Lodged into it was (.+)\.$
 	if ("%Loot.treasure" != "null") then {
 		gosub Arrayify %Loot.treasure
-		var Loot.treasureList %Arrayify.string
-		put #tvar Loot.treasureList %Arrayify.string
+		var Loot.treasureList %Arrayify.list
+		put #tvar Loot.treasureList %Arrayify.list
 	}
 	if ("%Loot.lodgedItems" != "null") then {
 		gosub Arrayify %Loot.lodgedItems
-		var Loot.lodgedItemsList %Arrayify.string
-		put #tvar Loot.lodgedItemsList %Arrayify.string
+		var Loot.lodgedItemsList %Arrayify.list
+		put #tvar Loot.lodgedItemsList %Arrayify.list
 	}
 	put #tvar Loot.treasure %Loot.treasure
 	put #tvar Loot.lodgedItems %Loot.lodgedItems

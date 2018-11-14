@@ -25,11 +25,11 @@ Transfer:
 	var Transfer.hand left
 	if ("$righthand" == "Empty") then var Transfer.hand right
 	gosub Inventory %Transfer.origin
-	if ("%Inventory.text" == "") then {
+	if ("%Inventory.list" == "") then {
 		gosub Error No items seen in Transfer.origin %Transfer.origin
 		return
 	}
-	gosub NounifyList %Inventory.text
+	gosub NounifyList %Inventory.list
 	var Transfer.nounList %NounifyList.list
 	var Transfer.index 0
 	eval Transfer.maxIndex count("%Transfer.nounList", "|")

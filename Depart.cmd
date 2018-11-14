@@ -9,7 +9,7 @@ Depart:
 	var Depart.command $0
 	var Depart.success 0
 Departing:
-	gosub Send Q "depart %Depart.command" "^Bracing yourself for pain, you concentrate on the Spiteful Rebirth spell\.  Your unnatural nervous system fires strongly even in death, forming the spell pattern\." "^Feeling depressed\?  You'll have to die first before you can depart\.$" "WARNING MESSAGES"
+	gosub Send Q "depart %Depart.command" "^Bracing yourself for pain, you concentrate on the Spiteful Rebirth spell\.  Your unnatural nervous system fires .+ even in death, forming the spell pattern\." "^Feeling depressed\?  You'll have to die first before you can depart\.$" "WARNING MESSAGES"
 	var Depart.response %Send.response
 	if ("%Send.success" == "1") then {
 		var Depart.success 1

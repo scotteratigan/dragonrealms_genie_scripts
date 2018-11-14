@@ -19,7 +19,7 @@ MoveRandom:
 		# I'm lost, move any which way I can in order to find my location. (ignore portal setting)
 		# If we get lost in a room with a lot of junk it may be hard to leave. Todo: filter list with the portal nouns... wherever I put that.
 		gosub Arrayify $roomobjs
-		gosub NounifyList %Arrayify.string
+		gosub NounifyList %Arrayify.list
 		eval MoveRandom.roomObjs replacere("%NounifyList.list", "^|\|", "|go ")
 		var MoveRandom.potentialDirections %MoveRandom.potentialDirections|%MoveRandom.roomObjs
 	}

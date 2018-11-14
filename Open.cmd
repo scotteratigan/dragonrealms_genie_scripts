@@ -21,7 +21,7 @@ Opening:
 	action remove ^In the .+ you see (.+)\.$
 	if ("%Open.boxContents" != "null") then {
 		gosub Arrayify %Open.boxContents
-		var Open.boxContentsArray %Arrayify.string
+		var Open.boxContentsArray %Arrayify.list
 		echo Box contents: %Open.boxContentsArray
 	}
 	if (%Open.success == 1) then return

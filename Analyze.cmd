@@ -37,3 +37,16 @@ Analyzing:
 # This appears to be a crafting tool and it has some minor scratches.
 # This appears to be a crafting tool and it is in good condition.
 # This appears to be a crafting tool and it is practically in mint condition.
+
+# Crafting tool speeds:
+# completely ineffective
+# tremendously ineffective
+# extremely ineffective
+# very ineffective
+# not very effective
+# sort of effective
+# rather effective
+# very effective
+# exceptionally effective
+# extremely effective
+# tremendously effective

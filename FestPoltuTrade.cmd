@@ -35,9 +35,6 @@ FestPoltuTrade:
 	}
 	gosub ClearHand both
 	gosub FestBoggleBlast
-	gosub FestBoggleBlast
-	gosub FestBoggleBlast
-	gosub FestBoggleBlast
 	gosub CraftGetRasps
 	#gosub CraftMakeBroadswords 3
 	#if (%CraftMakeBroadswords.success == 0) then return

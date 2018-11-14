@@ -65,7 +65,7 @@ Rummaging:
 	action remove ^You rummage through (.+) looking for something similar to "(.+)" and see (.+)\.$
 	if ("%Rummage.text" != "null") then {
 		gosub Arrayify %Rummage.text
-		var Rummage.list %Arrayify.string
+		var Rummage.list %Arrayify.list
 		gosub NounifyList %Rummage.list
 		var Rummage.nounList %NounifyList.list
 		echo Rummage.nounList is %Rummage.nounList

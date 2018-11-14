@@ -1,6 +1,8 @@
 #REQUIRE Error.cmd
 
-# Todo: change Arrayify.string to Arrayify.list for clarity. Keep Arrayify.string for the original text input.
+# Arrayify.string <- the text input (a copper coin, a bronze coin, and a gold coin)
+# Arrayify.list <- the resulting list (a copper coin|a bronze coin|a gold coin)
+# Arrayify.maxIndex <- the last element you can reference by index (length + 1)
 
 gosub Arrayify %0
 return
@@ -8,23 +10,22 @@ return
 Arrayify:
 	eval Arrayify.string tolower("$0")
 	if "%Arrayify.string" == "" then {
-		gosub Error Arrayify called with no string.
+		gosub Error Arrayify called with no text.
 		return
 	}
 	# Fix for treasure maps (because they have 'and' in the item name:
-	eval Arrayify.string replace("%Arrayify.string", "a worn and tattered map", "a worn --- tattered map")
+	eval Arrayify.list replace("%Arrayify.string", "a worn and tattered map", "a worn --- tattered map")
 	# Fix for jewelry with two types of metal:
 	var jewelryMetals anlora-avtoma|brass|bronze|copper|electrum|Elven silver|gold|iron|lead|palladium|pewter|platinum|red gold|silver|steel|tin|white gold|white silver
-	if matchre("%Arrayify.string", "^(.*)(%jewelryMetals) and? (%jewelryMetals)(.*)$") then var Arrayify.string $1$2 - $3$4
-	#echo array is %Arrayify.string
+	if matchre("%Arrayify.list", "^(.*)(%jewelryMetals) and? (%jewelryMetals)(.*)$") then var Arrayify.list $1$2 - $3$4
+	#echo array is %Arrayify.list
 	# In rare cases, there's ', and ' instead of ' and ' between the penultimate and ultimate item.
-	eval Arrayify.string replace("%Arrayify.string", ", and ", "|")
-	eval Arrayify.string replace("%Arrayify.string", ", ", "|")
-	eval Arrayify.string replace("%Arrayify.string", " and ", "|")
+	eval Arrayify.list replace("%Arrayify.list", ", and ", "|")
+	eval Arrayify.list replace("%Arrayify.list", ", ", "|")
+	eval Arrayify.list replace("%Arrayify.list", " and ", "|")
 	# Remove final period, if it exists:
-	eval Arrayify.string replacere("%Arrayify.string", "\.$", "")
+	eval Arrayify.list replacere("%Arrayify.list", "\.$", "")
 	# Re-add the word 'and' if it was removed:
-	eval Arrayify.string replace("%Arrayify.string", " --- ", " and ")
-	# Setting a global #tvar here also in case this is run standalone.
-	put #tvar Arrayify.string %Arrayify.string
+	eval Arrayify.list replace("%Arrayify.list", " --- ", " and ")
+	eval Arrayify.maxIndex count("%Arrayify.list", "|")
 	return

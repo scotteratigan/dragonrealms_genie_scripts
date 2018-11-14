@@ -5,7 +5,15 @@
 
 # There are two different modes for this script.
 # Default mode, count <container> sends the command to the game, gets a text number (one hundred seventy-two), and converts that into a number.
+#	This is used for counting stacks of ammo, for instance.
 # Alternate mode, count <item> in <container> will inventory the container, and count the occurrances of the text you specify.
+# Third mode, count <item> intext "this is a long list of text, that contains item, item, and other stuff"
+
+# Sets variables:
+# Count.success
+# Count.quantity (numerical)
+# Count.textQuantity (only set in default mode, 'one hundred seventeen')
+# Count.container (only in alternate mode, the container you counted inside of 'a silver backpack')
 
 gosub Count %0
 exit
@@ -21,9 +29,17 @@ Count:
 		var Count.object $1
 		var Count.container $2
 		gosub Inventory %Count.container
-		var Count.text %Inventory.text
+		var Count.text %Inventory.list
 		eval Count.quantity count("%Count.text", "%Count.object")
 		echo There are %Count.quantity %Count.object in %Count.container
+		return
+	}
+	# Check for third mode:
+	if (matchre("%Count.command", "(.+) intext (.+)")) then {
+		var Count.object $1
+		var Count.text $2
+		eval Count.quantity count("%Count.text", "%Count.object")
+		echo There are %Count.quantity %Count.object in supplied text.
 		return
 	}
 Counting:
